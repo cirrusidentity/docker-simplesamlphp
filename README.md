@@ -68,6 +68,8 @@ Port information is important in SAML metadata. If the metadata says your servic
 
 # Sample Usage
 
+There are a number of samples in the samples folder. [samples/testshib/README.md](testshib) is a good starting point.
+
 ## Use Local Config folder
 
 To run SSP against local files, no nginx proxy and listening on port 443
@@ -80,6 +82,10 @@ A lot depends on how you configure SSP, if you are using a proxy, and
 what environmental variables you set, but you should be able to access
 the install with a URL such as https://192.168.99.100:1660/simplesaml/
 where port 1660 is the port picked by Docker to map to 443.
+
+The DNS entry `*.docker.testm.es` resolves to `192.168.99.100` and is
+used throughout the documentation. If your docker instance runs on a
+different ip than you'll need to provide your own overrides.
 
 # Build Image
 

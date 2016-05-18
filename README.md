@@ -6,7 +6,7 @@
   - [Defaults](#defaults)
   - [Production](#production)
 - [Ports Matter - Use a Proxy](#ports-matter---use-a-proxy)
-  - [Setup](#setup)
+  - [Usage](#usage)
 - [Environmental variables](#environmental-variables)
 - [Sample Usage](#sample-usage)
   - [Use Local Config folder](#use-local-config-folder)
@@ -46,9 +46,9 @@ We'll be iterating on this image and making breaking changes. Currently this ima
 
 Port information is important in SAML metadata. If the metadata says your service is on port 443 then your docker container won't work correctly if its running on port 47651. We recommend using (TODO: add link) `jwilder/nginx-proxy` image simplifies your life. The proxy listens on port 443 and routes traffice to the appropriate SSP image.
 
-## Setup
+## Usage
 
-TODO: give instructions on `nginx-proxy`. TODO: build custom nginx-proxy that is pre-configured with an SSL cert.
+[Proxy setup is its own README](nginx-proxy/README.md)
 
 
 # Environmental variables
@@ -79,11 +79,11 @@ where port 1660 is the port picked by Docker to map to 443.
 
 This will build an image called cirrus/ssp-base and tag it with the ssp version 1.13.2
 
-    docker build -t cirrus/ssp-base:1.13.2 .
+    docker build -t cirrus/ssp-base:1.14.3 -f ssp-base/Dockerfile .
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
 
-    docker tag cirrus/ssp-base:1.13.2 cirrus/ssp-base:latest
+    docker tag cirrus/ssp-base:1.14.3 cirrus/ssp-base:latest
 
 You can see the images
 

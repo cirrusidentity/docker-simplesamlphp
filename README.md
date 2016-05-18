@@ -53,6 +53,7 @@ Port information is important in SAML metadata. If the metadata says your servic
 
 # Environmental variables
 
+ * SSP_ADMIN_PASSWORD The admin password. Defaults to '123' (same as regular SSP). For production you should use a hash or other authsource.
  * SSP_APACHE_ALIAS The apache path to map to simplesamlphp. Defaults to '/simplesaml'
  * SSP_ENABLED_MODULES The SSP modules that should be enabled. Example: 'cron metarefresh' will enable cron and metarefresh modules
  * APACHE_CERT_NAME The certificate name used for SSL. Apache expects to find `/etc/ssl/certs/${APACHE_CERT_NAME}.pem` and `/etc/ssl/private/${APACHE_CERT_NAME}.key`
@@ -72,7 +73,6 @@ Port information is important in SAML metadata. If the metadata says your servic
 To run SSP against local files, no nginx proxy and listening on port 443
 
     docker run -d -v -p 443:443 $PWD/ssp/config:/var/simplesamlphp/config cirrus/ssp-base
-
 
 # Browser access
 

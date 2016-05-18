@@ -29,7 +29,8 @@ RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_V
 
 # TODO: Have composer do a pre-fetch of packagist so future build are faster?
 
-ENV SSP_DIR=/var/simplesamlphp \
+ENV SSP_ADMIN_PASSWORD=123 \
+    SSP_DIR=/var/simplesamlphp \
     SSP_HASH=99e030d744ca4d8cd5033ef0da51d9f825ae05302045664fd49a2bae4e057a21 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
@@ -68,6 +69,7 @@ RUN a2ensite ssp
 
 # Customize SSP files for better docker compatability
 RUN sed -i.bak \
+    -e "s/^.*'auth\.adminpassword' =>.*$/'auth.adminpassword' => getenv('SSP_ADMIN_PASSWORD'),/" \
     -e "s/^.*'logging\.level' =>.*$/'logging.level' => (int) getenv('SSP_LOG_LEVEL'),/" \
     -e "s/^.*'logging\.handler' =>.*$/'logging.handler' => getenv('SSP_LOG_HANDLER'),/" \
     $SSP_DIR/config/config.php

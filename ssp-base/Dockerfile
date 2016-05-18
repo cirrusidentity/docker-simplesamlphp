@@ -20,18 +20,21 @@ RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
 
 
 # Download and enable composer
-ENV COMPOSER_VERSION=1.1.0
-ENV COMPOSER_HASH d8e1d21081b7076dfc9a570620e082111ab196dabd83780e50025c52d62b801c
+ENV COMPOSER_HASH=d8e1d21081b7076dfc9a570620e082111ab196dabd83780e50025c52d62b801c \
+    COMPOSER_VERSION=1.1.0
+
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
   && chmod u+x  /usr/local/bin/composer
 
 # TODO: Have composer do a pre-fetch of packagist so future build are faster?
 
-ENV SSP_VERSION 1.14.3
-ENV SSP_HASH 99e030d744ca4d8cd5033ef0da51d9f825ae05302045664fd49a2bae4e057a21
-ENV SSP_DIR /var/simplesamlphp
-
+ENV SSP_DIR=/var/simplesamlphp \
+    SSP_HASH=99e030d744ca4d8cd5033ef0da51d9f825ae05302045664fd49a2bae4e057a21 \
+    SSP_LOG_HANDLER=errorlog \
+    SSP_LOG_LEVEL=6 \
+    SSP_VERSION=1.14.3
+    
 RUN mkdir $SSP_DIR \
   && curl -o /tmp/ssp.tar.gz https://simplesamlphp.org/res/downloads/simplesamlphp-$SSP_VERSION.tar.gz \
   &&  echo "$SSP_HASH  /tmp/ssp.tar.gz" | sha256sum -c - \
@@ -43,8 +46,9 @@ RUN mkdir $SSP_DIR/data \
   && mkdir $SSP_DIR/ticketcache \
   && chown -R www-data $SSP_DIR/ticketcache
 
-# Add default index page
-RUN echo "You should access SSP on https.<p/>If you are using the nginx docker proxy make sure to set 'VIRTUAL_PORT=443' and 'VIRTUAL_PROTO=https'" > /var/www/html/index.html
+# Add default index page 
+RUN echo "You should access SSP on https.<p/>If you are using the nginx docker proxy make sure to set 'VIRTUAL_PORT=443' and 'VIRTUAL_PROTO=https'" > /var/www/html/index.html \
+    && echo 'By default SSP is on <a href="/simplesaml">/simplesaml</a>' > /var/www/index.html
 
 # Enable Apache modules
 RUN a2enmod ssl rewrite
@@ -52,8 +56,8 @@ EXPOSE 443
 # Default certs
 RUN apt-get install ssl-cert
 # Default basepath in apache config
-ENV SSP_APACHE_ALIAS simplesaml
-ENV APACHE_CERT_NAME ssl-cert-snakeoil
+ENV APACHE_CERT_NAME=ssl-cert-snakeoil \
+    SSP_APACHE_ALIAS=simplesaml
 # Sites must end with .conf
 ADD ssp-apache.conf /etc/apache2/sites-available/ssp.conf
 RUN a2ensite ssp
@@ -61,7 +65,12 @@ RUN a2ensite ssp
 
 # Customize php.ini??
 
-# TODO: Customize config.php to log to errlog
+
+# Customize SSP files for better docker compatability
+RUN sed -i.bak \
+    -e "s/^.*'logging\.level' =>.*$/'logging.level' => (int) getenv('SSP_LOG_LEVEL'),/" \
+    -e "s/^.*'logging\.handler' =>.*$/'logging.handler' => getenv('SSP_LOG_HANDLER'),/" \
+    $SSP_DIR/config/config.php
 
 COPY ssp-startup.sh /opt/simplesaml/ssp-startup.sh
 RUN chmod u+x /opt/simplesaml/ssp-startup.sh

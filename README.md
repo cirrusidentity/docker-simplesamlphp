@@ -57,7 +57,13 @@ Port information is important in SAML metadata. If the metadata says your servic
  * SSP_ENABLED_MODULES The SSP modules that should be enabled. Example: 'cron metarefresh' will enable cron and metarefresh modules
  * APACHE_CERT_NAME The certificate name used for SSL. Apache expects to find `/etc/ssl/certs/${APACHE_CERT_NAME}.pem` and `/etc/ssl/private/${APACHE_CERT_NAME}.key`
  * COMPOSER_REQUIRE Any additional composer modules to install. This should be a space seperated list.
-
+ * SSP_LOG_HANDLER The log handler to use. Defaults to `errorlog`
+ * SSP_LOG_LEVEL The log level to use. Must be numeric value. Default is `6` (`INFO`)
+  * 3: SimpleSAML_Logger::ERR          No statistics, only errors
+  * 4: SimpleSAML_Logger::WARNING      No statistics, only warnings/errors
+  * 5: SimpleSAML_Logger::NOTICE       Statistics and errors
+  * 6: SimpleSAML_Logger::INFO         Verbose logs
+  * 7: SimpleSAML_Logger::DEBUG        Full debug logs - not recommended for production
 
 # Sample Usage
 

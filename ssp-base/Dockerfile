@@ -10,11 +10,17 @@ RUN apt-get install -y \
   zlib1g-dev
 
 # Enable php extensions
+# gmp: ?
+# mcrypt: ?
+# mbstring: need in various comparison operations. `simplesamlphp/composer-module-installer` won't work without it (reports "ssp-mixedcase-module-name" issues)
+# zip: needed by composer
 RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
   && docker-php-ext-configure gmp \
   && docker-php-ext-install gmp \
   && docker-php-ext-configure mcrypt \
   && docker-php-ext-install mcrypt \
+  && docker-php-ext-configure mbstring \
+  && docker-php-ext-install mbstring \
   && docker-php-ext-configure zip \
   && docker-php-ext-install zip
 
@@ -69,9 +75,10 @@ RUN a2ensite ssp
 
 # Customize SSP files for better docker compatability
 RUN sed -i.bak \
-    -e "s/^.*'auth\.adminpassword' =>.*$/'auth.adminpassword' => getenv('SSP_ADMIN_PASSWORD'),/" \
-    -e "s/^.*'logging\.level' =>.*$/'logging.level' => (int) getenv('SSP_LOG_LEVEL'),/" \
-    -e "s/^.*'logging\.handler' =>.*$/'logging.handler' => getenv('SSP_LOG_HANDLER'),/" \
+    -e "s/^.*'baseurlpath'.*=>.*$/'baseurlpath' => getenv('SSP_APACHE_ALIAS'),/" \
+    -e "s/^.*'auth\.adminpassword'.*=>.*$/'auth.adminpassword' => getenv('SSP_ADMIN_PASSWORD'),/" \
+    -e "s/^.*'logging\.level'.*=>.*$/'logging.level' => (int) getenv('SSP_LOG_LEVEL'),/" \
+    -e "s/^.*'logging\.handler'.*=>.*$/'logging.handler' => getenv('SSP_LOG_HANDLER'),/" \
     $SSP_DIR/config/config.php
 
 COPY ssp-startup.sh /opt/simplesaml/ssp-startup.sh

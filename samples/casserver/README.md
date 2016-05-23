@@ -20,7 +20,7 @@ We use a custom `apache.conf` to add better rewrite rules for CAS.
       -v $PWD/authsources.php:/var/simplesamlphp/config/authsources.php \
       -v $PWD/module_casserver.php:/var/simplesamlphp/config/module_casserver.php \
       -v $PWD/../saml20-idp-remote.php:/var/simplesamlphp/metadata/saml20-idp-remote.php \
-      cirrus/ssp-base:1.14.3
+      cirrusid/ssp-base:1.14.3
 
 # Testing
 

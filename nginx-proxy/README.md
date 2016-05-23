@@ -73,7 +73,7 @@ docker-machine ip).
       -e CERT_NAME=default \
       -e VIRTUAL_PORT=443 \
       -e VIRTUAL_PROTO=https \
-      cirrus/ssp-base:1.14.3
+      cirrusid/ssp-base:1.14.3
 
 
 And you can view the logs with

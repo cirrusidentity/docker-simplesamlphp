@@ -74,7 +74,7 @@ There are a number of samples in the samples folder. [samples/testshib/README.md
 
 To run SSP against local files, no nginx proxy and listening on port 443
 
-    docker run -d -v -p 443:443 $PWD/ssp/config:/var/simplesamlphp/config cirrus/ssp-base
+    docker run -d -v -p 443:443 $PWD/ssp/config:/var/simplesamlphp/config cirrusid/ssp-base
 
 # Browser access
 
@@ -89,21 +89,21 @@ different ip than you'll need to provide your own overrides.
 
 # Build Image
 
-This will build an image called cirrus/ssp-base and tag it with the ssp version 1.13.2
+This will build an image called cirrusid/ssp-base and tag it with the ssp version 1.13.2
 
-    docker build -t cirrus/ssp-base:1.14.3 -f ssp-base/Dockerfile .
+    docker build -t cirrusid/ssp-base:1.14.3 -f ssp-base/Dockerfile .
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
 
-    docker tag cirrus/ssp-base:1.14.3 cirrus/ssp-base:latest
+    docker tag cirrusid/ssp-base:1.14.3 cirrusid/ssp-base:latest
 
 You can see the images
 
 ```
-docker images cirrus/ssp
+docker images cirrusid/ssp
 REPOSITORY          TAG                 IMAGE ID            CREATED              VIRTUAL SIZE
-cirrus/ssp          1.13.2              97cf0a208322        About a minute ago   535.8 MB
-cirrus/ssp          latest              97cf0a208322        About a minute ago   535.8 MB
+cirrusid/ssp          1.13.2              97cf0a208322        About a minute ago   535.8 MB
+cirrusid/ssp          latest              97cf0a208322        About a minute ago   535.8 MB
 ```
 
 ## Adding to Docker Repo

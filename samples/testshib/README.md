@@ -22,7 +22,7 @@ Environmental variables are defined in `env.list`
       -v $PWD/../cert:/var/simplesamlphp/cert \
       -v $PWD/authsources.php:/var/simplesamlphp/config/authsources.php \
       -v $PWD/../saml20-idp-remote.php:/var/simplesamlphp/metadata/saml20-idp-remote.php \
-      cirrus/ssp-base:1.14.3
+      cirrusid/ssp-base:1.14.3
 
 # Testing
 

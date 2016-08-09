@@ -89,13 +89,13 @@ different ip than you'll need to provide your own overrides.
 
 # Build Image
 
-This will build an image called cirrusid/ssp-base and tag it with the ssp version 1.13.2
+This will build an image called cirrusid/ssp-base and tag it with the ssp version 1.14.7
 
-    docker build -t cirrusid/ssp-base:1.14.3 -f ssp-base/Dockerfile .
+    docker build -t cirrusid/ssp-base:1.14.7 -f ssp-base/Dockerfile .
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
 
-    docker tag cirrusid/ssp-base:1.14.3 cirrusid/ssp-base:latest
+    docker tag cirrusid/ssp-base:1.14.7 cirrusid/ssp-base:latest
 
 You can see the images
 

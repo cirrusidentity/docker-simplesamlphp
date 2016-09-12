@@ -37,10 +37,10 @@ RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_V
 
 ENV SSP_ADMIN_PASSWORD=123 \
     SSP_DIR=/var/simplesamlphp \
-    SSP_HASH=a7a24d4dc89819f7e53141b38ae36b092a5c1fc9cb2e3cee253c765e5942be52 \
+    SSP_HASH=fc13d3b4cd29445124daeefd382d41643e64fa8ab37af31eb24c5d9e1c1aa92b \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=1.14.7
+    SSP_VERSION=1.14.8
     
 RUN mkdir $SSP_DIR \
   && curl -L -o /tmp/ssp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SSP_VERSION/simplesamlphp-$SSP_VERSION.tar.gz \
@@ -74,8 +74,9 @@ RUN a2ensite ssp
 
 
 # Customize SSP files for better docker compatability
+# TODO: update the default config.php to just include an override file
 RUN sed -i.bak \
-    -e "s/^.*'baseurlpath'.*=>.*$/'baseurlpath' => getenv('SSP_APACHE_ALIAS'),/" \
+    -e "s|^.*'baseurlpath'.*=>.*$|'baseurlpath' => getenv('SSP_APACHE_ALIAS') . '/',|" \
     -e "s/^.*'auth\.adminpassword'.*=>.*$/'auth.adminpassword' => getenv('SSP_ADMIN_PASSWORD'),/" \
     -e "s/^.*'logging\.level'.*=>.*$/'logging.level' => (int) getenv('SSP_LOG_LEVEL'),/" \
     -e "s/^.*'logging\.handler'.*=>.*$/'logging.handler' => getenv('SSP_LOG_HANDLER'),/" \

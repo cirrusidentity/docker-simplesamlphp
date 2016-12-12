@@ -1,4 +1,4 @@
-FROM php:5.6.14-apache
+FROM php:5.6-apache
 RUN apt-get update -y
 # Install the various packages needed by ssp and composer
 RUN apt-get install -y \
@@ -11,8 +11,8 @@ RUN apt-get install -y \
 
 # Enable php extensions
 # gmp: ?
-# mcrypt: ?
-# mbstring: need in various comparison operations. `simplesamlphp/composer-module-installer` won't work without it (reports "ssp-mixedcase-module-name" issues)
+# mcrypt: need for decrypting encrypted assertions
+# mbstring: need in various comparison operations. `simplesamlphp/composer-module-installer` won't work without it (reports "ssp-mixedcase-module-name" issues - newer version of composer include polyfill-mbstring which fixes this)
 # zip: needed by composer
 RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
   && docker-php-ext-configure gmp \
@@ -26,8 +26,8 @@ RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
 
 
 # Download and enable composer
-ENV COMPOSER_HASH=d8e1d21081b7076dfc9a570620e082111ab196dabd83780e50025c52d62b801c \
-    COMPOSER_VERSION=1.1.0
+ENV COMPOSER_HASH=3c900579659b79a4e528722e35bd160c86090e370e9cb41cc07c7a22c674c657 \
+    COMPOSER_VERSION=1.2.4
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
@@ -37,10 +37,10 @@ RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_V
 
 ENV SSP_ADMIN_PASSWORD=123 \
     SSP_DIR=/var/simplesamlphp \
-    SSP_HASH=fc13d3b4cd29445124daeefd382d41643e64fa8ab37af31eb24c5d9e1c1aa92b \
+    SSP_HASH=4899cae8e66967ad9fbf8dd0efe605b3a7c0f7a7c2c7a09e61470d623ca3a878 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=1.14.8
+    SSP_VERSION=1.14.11
     
 RUN mkdir $SSP_DIR \
   && curl -L -o /tmp/ssp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SSP_VERSION/simplesamlphp-$SSP_VERSION.tar.gz \

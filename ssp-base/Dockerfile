@@ -26,8 +26,8 @@ RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
 
 
 # Download and enable composer
-ENV COMPOSER_HASH=3c900579659b79a4e528722e35bd160c86090e370e9cb41cc07c7a22c674c657 \
-    COMPOSER_VERSION=1.2.4
+ENV COMPOSER_HASH=c0a5519c768ef854913206d45bd360efc2eb4a3e6eb1e1c7d0a4b5e0d3bbb31f \
+    COMPOSER_VERSION=1.5.2
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
@@ -37,10 +37,10 @@ RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_V
 
 ENV SSP_ADMIN_PASSWORD=123 \
     SSP_DIR=/var/simplesamlphp \
-    SSP_HASH=4899cae8e66967ad9fbf8dd0efe605b3a7c0f7a7c2c7a09e61470d623ca3a878 \
+    SSP_HASH=436e73170732929715cf59a0f472f591c0f791b26e5ff02909d4c5113a8c9308 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=1.14.11
+    SSP_VERSION=1.15.1
     
 RUN mkdir $SSP_DIR \
   && curl -L -o /tmp/ssp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SSP_VERSION/simplesamlphp-$SSP_VERSION.tar.gz \

@@ -1,4 +1,5 @@
 FROM php:5.6-apache
+ENV REFRESHED=2018-8-24
 RUN apt-get update -y
 # Install the various packages needed by ssp and composer
 RUN apt-get install -y \
@@ -26,8 +27,8 @@ RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
 
 
 # Download and enable composer
-ENV COMPOSER_HASH=c0a5519c768ef854913206d45bd360efc2eb4a3e6eb1e1c7d0a4b5e0d3bbb31f \
-    COMPOSER_VERSION=1.5.2
+ENV COMPOSER_HASH=ec3428d049ae8877f7d102c2ee050dbd51a160fc2dde323f3e126a3b3846750e \
+    COMPOSER_VERSION=1.7.2
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
@@ -37,10 +38,10 @@ RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_V
 
 ENV SSP_ADMIN_PASSWORD=123 \
     SSP_DIR=/var/simplesamlphp \
-    SSP_HASH=436e73170732929715cf59a0f472f591c0f791b26e5ff02909d4c5113a8c9308 \
+    SSP_HASH=349cf5d9f9ecbbced0e6f6794d26d5242fc9dafbd34268aeeb200182c24f88a5 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=1.15.1
+    SSP_VERSION=1.15.4
     
 RUN mkdir $SSP_DIR \
   && curl -L -o /tmp/ssp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SSP_VERSION/simplesamlphp-$SSP_VERSION.tar.gz \

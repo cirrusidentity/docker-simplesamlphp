@@ -74,7 +74,7 @@ There are a number of samples in the samples folder. [samples/testshib/README.md
 
 To run SSP against local files, no nginx proxy and listening on port 443
 
-    docker run -d -v -p 443:443 $PWD/ssp/config:/var/simplesamlphp/config cirrusid/ssp-base
+    docker run -d -p 443:443 -v $PWD/ssp/config:/var/simplesamlphp/config cirrusid/ssp-base
 
 # Browser access
 

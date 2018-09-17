@@ -1,25 +1,21 @@
-FROM php:5.6-apache
-ENV REFRESHED=2018-8-24
+FROM php:7.2-apache
+ENV REFRESHED=2018-9-17
 RUN apt-get update -y
 # Install the various packages needed by ssp and composer
 RUN apt-get install -y \
   file \
   libgmp-dev \
-  libmcrypt-dev \
   libmhash-dev \
   re2c \
   zlib1g-dev
 
 # Enable php extensions
 # gmp: ?
-# mcrypt: need for decrypting encrypted assertions
 # mbstring: need in various comparison operations. `simplesamlphp/composer-module-installer` won't work without it (reports "ssp-mixedcase-module-name" issues - newer version of composer include polyfill-mbstring which fixes this)
 # zip: needed by composer
 RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
   && docker-php-ext-configure gmp \
   && docker-php-ext-install gmp \
-  && docker-php-ext-configure mcrypt \
-  && docker-php-ext-install mcrypt \
   && docker-php-ext-configure mbstring \
   && docker-php-ext-install mbstring \
   && docker-php-ext-configure zip \
@@ -38,10 +34,10 @@ RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_V
 
 ENV SSP_ADMIN_PASSWORD=123 \
     SSP_DIR=/var/simplesamlphp \
-    SSP_HASH=349cf5d9f9ecbbced0e6f6794d26d5242fc9dafbd34268aeeb200182c24f88a5 \
+    SSP_HASH=253187815693306eb5a0b5cc8a6c6a94ba70a7846871abb210c65d403839f468 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=1.15.4
+    SSP_VERSION=1.16.1
     
 RUN mkdir $SSP_DIR \
   && curl -L -o /tmp/ssp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SSP_VERSION/simplesamlphp-$SSP_VERSION.tar.gz \

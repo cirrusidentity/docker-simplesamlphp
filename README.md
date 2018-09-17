@@ -18,7 +18,7 @@
 
 # SimpleSAMLphp
 
-This image is pre-configured with Apache, php5.6 and SSP.
+This image is pre-configured with Apache 2.4, php 7.2 and SSP.
 The behavior of the image can be controlled with 
  * environmental variables
  * mounting custom configuration and certificates
@@ -76,26 +76,24 @@ To run SSP against local files, no nginx proxy and listening on port 443
 
     docker run -d -p 443:443 -v $PWD/ssp/config:/var/simplesamlphp/config cirrusid/ssp-base
 
+*note*: the folder used in the above example does not contain and config files. It is just an example of how to set a folder.
+
 # Browser access
 
 A lot depends on how you configure SSP, if you are using a proxy, and
 what environmental variables you set, but you should be able to access
-the install with a URL such as https://192.168.99.100:1660/simplesaml/
-where port 1660 is the port picked by Docker to map to 443.
-
-The DNS entry `*.docker.testm.es` resolves to `192.168.99.100` and is
-used throughout the documentation. If your docker instance runs on a
-different ip than you'll need to provide your own overrides.
+the install with a URL such as https://127.0.0.1:1660/simplesaml/
+where port 1660 is the port picked by Docker to map to 443. That port will be different for you
 
 # Build Image
 
-This will build an image called cirrusid/ssp-base and tag it with the ssp version 1.15.1
+This will build an image called cirrusid/ssp-base and tag it with the ssp version 1.16.1
 
-    docker build -t cirrusid/ssp-base:1.15.1 -f ssp-base/Dockerfile .
+    docker build -t cirrusid/ssp-base:1.16.1 -f ssp-base/Dockerfile .
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
 
-    docker tag cirrusid/ssp-base:1.15.1 cirrusid/ssp-base:latest
+    docker tag cirrusid/ssp-base:1.16.1 cirrusid/ssp-base:latest
 
 You can see the images
 

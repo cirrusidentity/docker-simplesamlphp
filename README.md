@@ -18,7 +18,7 @@
 
 # SimpleSAMLphp
 
-This image is pre-configured with Apache 2.4, php 7.2 and SSP.
+This image is pre-configured with Apache 2.4, php 7.4 and SSP.
 The behavior of the image can be controlled with 
  * environmental variables
  * mounting custom configuration and certificates
@@ -46,9 +46,58 @@ We'll be iterating on this image and making breaking changes. Currently this ima
 
 Port information is important in SAML metadata. If the metadata says your service is on port 443 then your docker container won't work correctly if its running on port 47651. We recommend using (TODO: add link) `jwilder/nginx-proxy` image simplifies your life. The proxy listens on port 443 and routes traffice to the appropriate SSP image.
 
-## Usage
+## Usage Examples
+
+### Default Install
+
+You can run SSP
+
+    docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp
+
+then navigate to https://localhost/simplesaml/ (and accept the certificate) and you can
+see the welcome page and navigate to some of the menus. Functionality is limited since
+no admin password has been set.
+
+You can view the logs
+
+    docker logs ssp-default
+
+### Use Env variables
+
+A number of settings can be set with `env` variables to allow you to explore functionality.
+This example will set the admin account secret, use the new UI and run SSP under `/altinstall/`
+
+```bash
+docker run --name ssp-env \
+  -e SSP_ADMIN_PASSWORD=secret1 \
+  -e SSP_SECRET_SALT=mysalt \
+  -e SSP_NEW_UI=true \
+  -e SSP_APACHE_ALIAS=altinstall/ \
+   -p 443:443 cirrusid/simplesamlphp
+```
+
+The new UI does not take you from the root index directly to the front page, so visit the front page
+directly: https://localhost/altinstall/module.php/core/frontpage_welcome.php  You should be able to
+click the `Configuration` menu, and then `PHP Info` and authenticate as an admin.
+
+### Installing composer modules
+
+For testing purposes you can install composer dependencies at container start. Some modules also need to be enabled.
+
+```bash
+docker run --name ssp-composer \
+  -e SSP_ADMIN_PASSWORD=secret1 \
+  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-metarefresh:v1.0.0" \
+  -e SSP_ENABLED_MODULES="modinfo metarefresh" \
+   -p 443:443 cirrusid/simplesamlphp
+```
+
+For a production image you can set these same variables in your `Dockerfile` and call the `module-setup.sh` to install.
+You can of course install dependencies anyway you see fit.
+
 
 [Proxy setup is its own README](nginx-proxy/README.md)
+
 
 
 # Environmental variables
@@ -74,7 +123,7 @@ There are a number of samples in the samples folder. [samples/testshib/README.md
 
 To run SSP against local files, no nginx proxy and listening on port 443
 
-    docker run -d -p 443:443 -v $PWD/ssp/config:/var/simplesamlphp/config cirrusid/ssp-base
+    docker run -d -p 443:443 -v $PWD/ssp/config:/var/simplesamlphp/config cirrusid/simplesamlphp
 
 *note*: the folder used in the above example does not contain and config files. It is just an example of how to set a folder.
 
@@ -87,18 +136,20 @@ where port 1660 is the port picked by Docker to map to 443. That port will be di
 
 # Build Image
 
-This will build an image called cirrusid/ssp-base and tag it with the ssp version 1.16.1
+This will build an image called `cirrusid/simplesamlphp` and tag it with the ssp version `1`.19.0`
 
-    docker build -t cirrusid/ssp-base:1.16.1 -f ssp-base/Dockerfile .
+    cd docker
+    SSPV=1.19.0
+    docker build -t cirrusid/simplesamlphp:$SSPV -f Dockerfile .
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
 
-    docker tag cirrusid/ssp-base:1.16.1 cirrusid/ssp-base:latest
+    docker tag cirrusid/simplesamlphp:$SSPV cirrusid/simplesamlphp:latest
 
 You can see the images
 
 ```
-docker images cirrusid/ssp
+docker images cirrusid/simplesamlphp
 REPOSITORY          TAG                 IMAGE ID            CREATED              VIRTUAL SIZE
 cirrusid/ssp          1.13.2              97cf0a208322        About a minute ago   535.8 MB
 cirrusid/ssp          latest              97cf0a208322        About a minute ago   535.8 MB

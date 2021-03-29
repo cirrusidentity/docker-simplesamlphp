@@ -4,7 +4,6 @@
 
 - [SimpleSAMLphp](#simplesamlphp)
   - [Defaults](#defaults)
-  - [Production](#production)
 - [Ports Matter - Use a Proxy](#ports-matter---use-a-proxy)
   - [Usage Examples](#usage-examples)
     - [Default Install](#default-install)
@@ -39,10 +38,6 @@ SSP is installed into the `/var/simplesamlphp` and Apache aliases the
 path `/simplesaml` to the SSP's `www` folder. You can adjust the
 Apache mapping with `SSP_APACHE_ALIAS` environmental variable. The
 default document root is `/var/www`
-
-## Production
-
-We'll be iterating on this image and making breaking changes. Currently this image is useful for testing/learning SSP and testing custom modules.
 
 # Ports Matter - Use a Proxy
 

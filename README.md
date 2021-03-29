@@ -105,6 +105,33 @@ image, not installed at runtime. You can set these same variables in
 your `Dockerfile` and call the `module-setup.sh` to install.  You can
 of course install dependencies anyway you see fit.
 
+### Test IdP + Setting Configuration Files
+
+The image allows you to mount a `config-overide.php` into the `config` to change certain configuration settings,
+including enabling idp mode and allowing `exampleauth`
+In this example we mount a an override of some configuration options, and the file needed to configure an IdP.
+```
+docker run --name ssp-idp \
+  --mount type=bind,source="$(pwd)/samples/cert",target=/var/simplesamlphp/cert,readonly \
+  --mount type=bind,source="$(pwd)/samples/idp/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
+  --mount type=bind,source="$(pwd)/samples/idp/config-override.php",target=/var/simplesamlphp/config/config-override.php,readonly \
+  --mount type=bind,source="$(pwd)/samples/idp/saml2-idp-hosted.php",target=/var/simplesamlphp/metadata/saml2-idp-hosted.php,readonly \
+  -e SSP_ADMIN_PASSWORD=secret1 \
+  -e SSP_SECRET_SALT=mysalt \
+  -e SSP_APACHE_ALIAS=sample-idp/ \
+   -p 443:443 cirrusid/simplesamlphp
+```
+
+You can view the [IdP metadata](https://localhost/sample-idp/saml2/idp/metadata.php?output=xhtml)
+and [test authentication](https://localhost/sample-idp/module.php/core/authenticate.php?as=example-userpass). Credentials
+are username `student` and password `studentpass`. See the `authsources.php` for how this is configured.
+
+### Local Module Development
+
+If you are developing a module locally you can mount it into a running SSP container to test it.
+
+
+
 
 [Proxy setup is its own README](nginx-proxy/README.md)
 

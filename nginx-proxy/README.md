@@ -33,7 +33,7 @@ Use the below syntax to run the proxy with tls support
 docker run --name nginx-proxy -d -p 80:80 -p 443:443 -v $PWD/certs:/etc/nginx/certs -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
 ```
 
-## Run a Proxialble Container
+## Run a Proxiable Container
 
 There are a couple of secrets for running the containers that will get
 proxied by nginx. These settings should be applied to the proxied

@@ -13,9 +13,6 @@
     - [Test IdP + Setting Configuration Files](#test-idp--setting-configuration-files)
     - [Local Module Development](#local-module-development)
 - [Environmental variables](#environmental-variables)
-- [Sample Usage](#sample-usage)
-  - [Use Local Config folder](#use-local-config-folder)
-- [Browser access](#browser-access)
 - [Build Image](#build-image)
   - [Adding to Docker Repo](#adding-to-docker-repo)
 
@@ -177,37 +174,23 @@ visible.
 
 # Environmental variables
 
+ * COMPOSER_REQUIRE Any additional composer modules to install. This should be a space seperated list.
  * SSP_ADMIN_PASSWORD The admin password. Defaults to '123' (same as regular SSP). For production you should use a hash or other authsource.
  * SSP_APACHE_ALIAS The apache path to map to simplesamlphp. Defaults to '/simplesaml'
+ * SSP_ENABLE_IDP: Set to 'true' to enable an IdP. You'll still need to mount certs and configure an authsource.
  * SSP_ENABLED_MODULES The SSP modules that should be enabled. Example: 'cron metarefresh' will enable cron and metarefresh modules
  * APACHE_CERT_NAME The certificate name used for SSL. Apache expects to find `/etc/ssl/certs/${APACHE_CERT_NAME}.pem` and `/etc/ssl/private/${APACHE_CERT_NAME}.key`
- * COMPOSER_REQUIRE Any additional composer modules to install. This should be a space seperated list.
  * SSP_LOG_HANDLER The log handler to use. Defaults to `errorlog`
  * SSP_LOG_LEVEL The log level to use. Must be numeric value. Default is `6` (`INFO`)
-  * 3: SimpleSAML_Logger::ERR          No statistics, only errors
-  * 4: SimpleSAML_Logger::WARNING      No statistics, only warnings/errors
-  * 5: SimpleSAML_Logger::NOTICE       Statistics and errors
-  * 6: SimpleSAML_Logger::INFO         Verbose logs
-  * 7: SimpleSAML_Logger::DEBUG        Full debug logs - not recommended for production
-
-# Sample Usage
-
-There are a number of samples in the samples folder. [samples/testshib/README.md](testshib) is a good starting point.
-
-## Use Local Config folder
-
-To run SSP against local files, no nginx proxy and listening on port 443
-
-    docker run -d -p 443:443 -v $PWD/ssp/config:/var/simplesamlphp/config cirrusid/simplesamlphp
-
-*note*: the folder used in the above example does not contain and config files. It is just an example of how to set a folder.
-
-# Browser access
-
-A lot depends on how you configure SSP, if you are using a proxy, and
-what environmental variables you set, but you should be able to access
-the install with a URL such as https://127.0.0.1:1660/simplesaml/
-where port 1660 is the port picked by Docker to map to 443. That port will be different for you
+    * 3: SimpleSAML_Logger::ERR          No statistics, only errors
+    * 4: SimpleSAML_Logger::WARNING      No statistics, only warnings/errors
+    * 5: SimpleSAML_Logger::NOTICE       Statistics and errors
+    * 6: SimpleSAML_Logger::INFO         Verbose logs
+    * 7: SimpleSAML_Logger::DEBUG        Full debug logs - not recommended for production
+ * SSP_NEW_UI Set to true to enable the new twig UI
+ * SSP_SECRET_SALT Set a secret salt
+ 
+ 
 
 # Build Image
 

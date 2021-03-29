@@ -1,3 +1,6 @@
+
+* Out of date content*
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
@@ -61,7 +64,7 @@ If you want:
 ### Sample
 
 This runs an image as the host `sample-sp.ci-local.com` on random
-ports. The nginx container detects these ports, and introsepcts the
+ports. The nginx container detects these ports, and introspects the
 environmental variables and sees the proxy should listen on 443 and
 forward connections to the container. The DNS record
 `*.docker.testm.es` resolves to ` 192.168.99.100` (the most common

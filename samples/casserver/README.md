@@ -1,3 +1,5 @@
+* Out of date content*
+
 # CAS Server
 
 This SSP configuration is setup to be a CAS server. Users are authenticated from a SAML IdP and the assertions are converted into CAS

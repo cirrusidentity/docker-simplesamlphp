@@ -10,6 +10,8 @@
     - [Default Install](#default-install)
     - [Use Env variables](#use-env-variables)
     - [Installing and Enable modules at runtime](#installing-and-enable-modules-at-runtime)
+    - [Test IdP + Setting Configuration Files](#test-idp--setting-configuration-files)
+    - [Local Module Development](#local-module-development)
 - [Environmental variables](#environmental-variables)
 - [Sample Usage](#sample-usage)
   - [Use Local Config folder](#use-local-config-folder)
@@ -128,8 +130,44 @@ are username `student` and password `studentpass`. See the `authsources.php` for
 
 ### Local Module Development
 
-If you are developing a module locally you can mount it into a running SSP container to test it.
+If you are developing a module locally you can mount it into an SSP container to test it. If your module has
+additional dependencies the you can't just mount it into the container because your dependencies won't be installed.
+Instead mount it into the `staging-modules` folder and the container can add it as a composer dependency and install
+it for you.
 
+```
+# pretend you are developing this module
+git clone https://github.com/simplesamlphp/simplesamlphp-module-modinfo
+cd simplesamlphp-module-modinfo/
+# Checkout a tag compatible with the SSP version.
+git checkout v1.1.1
+docker run --name ssp-staging \
+  --mount type=bind,source="$(pwd)",target=/var/simplesamlphp/staging-modules/modinfo,readonly \
+  -e STAGINGCOMPOSERREPOS=modinfo \
+  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo:v1.1.1" \
+  -e SSP_ADMIN_PASSWORD=secret1 \
+  -e SSP_SECRET_SALT=mysalt \
+  -e SSP_APACHE_ALIAS=sample-staging/ \
+  -p 443:443 cirrusid/simplesamlphp
+```
+
+In the output, you should see a line like below, indicating the module was installed.
+
+```
+  - Installing simplesamlphp/simplesamlphp-module-modinfo (v1.1.1): Symlinking from /var/simplesamlphp/staging-modules/modinfo
+```
+
+We mounted the module under development as a read only file system. This means we need to create a local `enable`
+file in our writable file system. Let's make a few edits to the module to show how they are reflected into SSP.
+
+```bash
+$ touch enable
+$ vim dictionaries/modinfo.definition.json
+# Change `Available modules` to some other text, or edit the correct text for your language
+```
+
+Now visit https://localhost/sample-staging/module.php/core/frontpage_config.php and you should see you text change
+visible.
 
 
 

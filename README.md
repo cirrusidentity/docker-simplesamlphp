@@ -6,7 +6,10 @@
   - [Defaults](#defaults)
   - [Production](#production)
 - [Ports Matter - Use a Proxy](#ports-matter---use-a-proxy)
-  - [Usage](#usage)
+  - [Usage Examples](#usage-examples)
+    - [Default Install](#default-install)
+    - [Use Env variables](#use-env-variables)
+    - [Installing and Enable modules at runtime](#installing-and-enable-modules-at-runtime)
 - [Environmental variables](#environmental-variables)
 - [Sample Usage](#sample-usage)
   - [Use Local Config folder](#use-local-config-folder)
@@ -80,20 +83,27 @@ The new UI does not take you from the root index directly to the front page, so 
 directly: https://localhost/altinstall/module.php/core/frontpage_welcome.php  You should be able to
 click the `Configuration` menu, and then `PHP Info` and authenticate as an admin.
 
-### Installing composer modules
+### Installing and Enable modules at runtime
 
 For testing purposes you can install composer dependencies at container start. Some modules also need to be enabled.
 
 ```bash
 docker run --name ssp-composer \
   -e SSP_ADMIN_PASSWORD=secret1 \
-  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-metarefresh:v1.0.0" \
-  -e SSP_ENABLED_MODULES="modinfo metarefresh" \
+  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-fticks:v1.1.2" \
+  -e SSP_ENABLED_MODULES="modinfo metarefresh fticks" \
    -p 443:443 cirrusid/simplesamlphp
 ```
 
-For a production image you can set these same variables in your `Dockerfile` and call the `module-setup.sh` to install.
-You can of course install dependencies anyway you see fit.
+This should install and enable `modinfo` which will tell you the
+status of installed modules. Visit
+`https://localhost/simplesaml/module.php/modinfo/` to see the
+list. You should see `fticks` and `metarefresh` are enabled.
+
+For a production image you want your dependencies built into your
+image, not installed at runtime. You can set these same variables in
+your `Dockerfile` and call the `module-setup.sh` to install.  You can
+of course install dependencies anyway you see fit.
 
 
 [Proxy setup is its own README](nginx-proxy/README.md)

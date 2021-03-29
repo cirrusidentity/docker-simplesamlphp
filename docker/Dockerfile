@@ -23,10 +23,11 @@ ENV COMPOSER_HASH=d6eee0d4637f4bd82bdae098fceda300dcb3ec35bf502604fbe7510933b8f9
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
-  && chmod u+x  /usr/local/bin/composer
+  && chmod a+x  /usr/local/bin/composer
 
 ENV APACHE_CERT_NAME=ssl-cert-snakeoil \
     COMPOSER_REQUIRE="" \
+    COMPOSER_HOME=/opt/simplesamlphp/.composer \
     SSP_ADMIN_PASSWORD=123 \
     SSP_APACHE_ALIAS="simplesaml/" \
     SSP_DELETE_MODULES="" \
@@ -54,7 +55,8 @@ RUN a2ensite ssp
 # Make directories often required by commonly used modules
 RUN mkdir -p $SSP_DIR/data \
     && mkdir $SSP_DIR/ticketcache \
-    && chown -R www-data $SSP_DIR
+    && chown -R www-data $SSP_DIR \
+    && mkdir -p $COMPOSER_HOME && chown www-data $COMPOSER_HOME
 
 USER www-data
 RUN curl -L -o /tmp/ssp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SSP_VERSION/simplesamlphp-$SSP_VERSION.tar.gz \

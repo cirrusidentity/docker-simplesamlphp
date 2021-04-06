@@ -14,7 +14,7 @@ RUN apt-get update -y && apt-get install -y \
   vim \
   unzip
 
-RUN install-php-extensions gmp ldap soap apcu memcached zip
+RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql
 
 
 # Download and enable composer. See 'Manual Download' https://getcomposer.org/download/

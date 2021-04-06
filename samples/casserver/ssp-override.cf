@@ -1,0 +1,7 @@
+
+    RewriteEngine On
+    # Enable CAS like URL mappings
+    RewriteRule ^/cas/login(.*) /${SSP_APACHE_ALIAS}module.php/casserver/login.php$1 [PT]
+    RewriteRule ^/cas/serviceValidate(.*) /${SSP_APACHE_ALIAS}module.php/casserver/serviceValidate.php$1 [PT]
+    RewriteRule ^/cas/proxyValidate(.*) /${SSP_APACHE_ALIAS}module.php/casserver/serviceValidate.php$1 [PT]
+    RewriteRule ^/cas/validate(.*) /${SSP_APACHE_ALIAS}module.php/casserver/validate.php$1 [PT]

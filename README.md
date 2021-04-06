@@ -39,6 +39,9 @@ path `/simplesaml` to the SSP's `www` folder. You can adjust the
 Apache mapping with `SSP_APACHE_ALIAS` environmental variable. The
 default document root is `/var/www`
 
+A number of php extensions are installed by default to simplify
+integrating the image with ldap and databases.
+
 # Ports Matter - Use a Proxy
 
 Port information is important in SAML metadata. If the metadata says your service is on port 443 then your docker container won't work correctly if its running on port 47651. We recommend using [`jwilder/nginx-proxy`](https://hub.docker.com/r/jwilder/nginx-proxy/) image simplifies your life. The proxy listens on port 443 and routes traffice to the appropriate SSP image.
@@ -161,7 +164,25 @@ $ vim dictionaries/modinfo.definition.json
 Now visit https://localhost/sample-staging/module.php/core/frontpage_config.php and you should see you text change
 visible.
 
+### Apache Configuration Overrides
 
+Some modules require additional apache configuration rules to function. In this example we install the `casserver` module.
+The convention for CAS is to run at `https://hostname/cas/login`. The apache override file will create that mapping to
+the path `/simplesaml/module.php/casserver/login.php`
+
+```bash
+docker run --name ssp-casserver \
+  -e SSP_ADMIN_PASSWORD=secret1 \
+  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-casserver" \
+  -e SSP_ENABLED_MODULES="modinfo casserver exampleauth" \
+  --mount type=bind,source="$(pwd)/samples/casserver/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
+  --mount type=bind,source="$(pwd)/samples/casserver/module_casserver.php",target=/var/simplesamlphp/config/module_casserver.php,readonly \
+  --mount type=bind,source="$(pwd)/samples/casserver/ssp-override.cf",target=/etc/apache2/sites-enabled/ssp-override.cf,readonly \
+   -p 443:443 cirrusid/simplesamlphp
+```
+
+Now perform a [CAS authentication](https://localhost/simplesaml/cas/login?service=http%3A%2F%2Flocalhost%2Fcas-example)
+and you should authenticate and then be sent to 404 url with a ticket as a query parameter in the URL.
 
 [Proxy setup is its own README](nginx-proxy/README.md)
 

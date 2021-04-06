@@ -4,7 +4,8 @@
  * 
  */
 $config = array(
-    'authsource' => 'default-sp',
+    'authsource' => 'example-userpass',
+    'debugMode' => true,
     'legal_service_urls' => array( //Any service url string matching any of the following prefixes is accepted
         'http://localhost/cas-example',
     ),
@@ -12,9 +13,9 @@ $config = array(
         'class' => 'casserver:FileSystemTicketStore', //Not intended for production
         'directory' => 'ticketcache',
     ),
-    'attrname' => 'eduPersonPrincipalName', // 'eduPersonPrincipalName',
+    'attrname' => 'uid', // 'eduPersonPrincipalName',
     'attributes' => true, // enable transfer of attributes, defaults to false
-    'attributes_to_transfer' => array('eduPersonPrincipalName'), // set of attributes to transfer, defaults to all
+    'attributes_to_transfer' => array('eduPersonAffiliation'), // set of attributes to transfer, defaults to all
 
     'service_ticket_expire_time' => 300, //5 minutes until tickets expire. This 
 );

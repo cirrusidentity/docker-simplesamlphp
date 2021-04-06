@@ -10,16 +10,17 @@ $config = array(
         'core:AdminPassword',
     ),
 
-
-    // An authentication source which can authenticate against both SAML 2.0
-    // and Shibboleth 1.3 IdPs.
-    'default-sp' => array(
-        'saml:SP',
-        'privatekey' => 'server.pem',
-        'certificate' => 'server.crt',
-        'signature.algorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
-
-    ),
+    'example-userpass' => [
+        'exampleauth:UserPass',
+        'student:studentpass' => [
+            'uid' => ['student'],
+            'eduPersonAffiliation' => ['member', 'student'],
+        ],
+        'employee:employeepass' => [
+            'uid' => ['employee'],
+            'eduPersonAffiliation' => ['member', 'employee'],
+        ],
+    ],
 
 
 );

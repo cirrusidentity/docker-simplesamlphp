@@ -46,7 +46,7 @@ RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \
 
 # Add default index page 
 RUN echo "You should access SSP on https.<p/>If you are using the nginx docker proxy make sure to set 'VIRTUAL_PORT=443' and 'VIRTUAL_PROTO=https'" > /var/www/html/index.html \
-    && echo 'By default SSP is on <a href="/simplesaml">/simplesaml</a>' > /var/www/index.html
+    && echo 'By default SSP is on <a href="/simplesaml/">/simplesaml/</a>' > /var/www/index.html
 
 # Enable Apache modules
 RUN a2enmod ssl rewrite

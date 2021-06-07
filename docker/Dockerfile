@@ -18,14 +18,15 @@ RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql
 
 
 # Download and enable composer. See 'Manual Download' https://getcomposer.org/download/
-ENV COMPOSER_HASH=d6eee0d4637f4bd82bdae098fceda300dcb3ec35bf502604fbe7510933b8f952 \
-    COMPOSER_VERSION=2.0.11
+ENV COMPOSER_HASH=29454b41558968ca634bf5e2d4d07ff2275d91b637a76d7a05e6747d36dd3473 \
+    COMPOSER_VERSION=2.0.14
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
   && chmod a+x  /usr/local/bin/composer
-
-ENV APACHE_CERT_NAME=ssl-cert-snakeoil \
+# Use a real cert instead of snakeoil
+# APACHE_CERT_NAME=ssl-cert-snakeoil
+ENV APACHE_CERT_NAME=local-stack-dev \
     COMPOSER_REQUIRE="" \
     COMPOSER_HOME=/opt/simplesamlphp/.composer \
     SSP_ADMIN_PASSWORD=123 \
@@ -33,11 +34,11 @@ ENV APACHE_CERT_NAME=ssl-cert-snakeoil \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=2111129787a4baf27a51e52bda660c56d069f167354800bffc72440dcacb3a6f \
+    SSP_HASH=19e3860eff63f2367579b9ee5c2b7b609d7d17daacacd3e04823ddf599124747 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
     SSP_NEW_UI=false \
-    SSP_VERSION=1.19.0 \
+    SSP_VERSION=1.19.1 \
     COMPOSER_REQUIRE=""
 
 
@@ -54,6 +55,8 @@ EXPOSE 443
 
 # Sites must end with .conf
 ADD ssp-apache.conf /etc/apache2/sites-available/ssp.conf
+ADD tls/local-stack-dev.key  /etc/ssl/private/${APACHE_CERT_NAME}.key
+ADD tls/local-stack-dev.pem  /etc/ssl/certs/${APACHE_CERT_NAME}.pem
 RUN a2ensite ssp
 # Make directories often required by commonly used modules
 RUN mkdir -p $SSP_DIR/data \

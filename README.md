@@ -62,6 +62,17 @@ You can view the logs
 
     docker logs ssp-default
 
+### Use TLS certificate
+
+A wildcard TLS certificate is included for testing. You may use your own (see the `APACHE_CERT_NAME` env variable and `ssp-apache.conf`)
+or you can test with the on included.
+
+     docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp
+
+And visit https://example.local.stack-dev.cirrusidentity.com/simplesaml/ to access your localhost with a valid certificate.
+You may use any subdomain, not just example, for your testing. Certificates expire every 90 days so you'll need to
+periodically pull new images.
+
 ### Use Env variables
 
 A number of settings can be set with `env` variables to allow you to explore functionality.
@@ -210,10 +221,10 @@ and you should authenticate and then be sent to 404 url with a ticket as a query
 
 # Build Image
 
-This will build an image called `cirrusid/simplesamlphp` and tag it with the ssp version `1`.19.0`
+This will build an image called `cirrusid/simplesamlphp` and tag it with the ssp version `1`.19.1`
 
     cd docker
-    SSPV=1.19.0
+    SSPV=1.19.1
     docker build -t cirrusid/simplesamlphp:$SSPV -f Dockerfile .
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
@@ -232,3 +243,38 @@ cirrusid/ssp          latest              97cf0a208322        About a minute ago
 ## Adding to Docker Repo
 
 TODO
+
+# Using real TLS certificates
+
+## Using dns for localhost
+
+The dns entry `*.local.stack-dev.cirrusidentity.com` resolves to your
+localhost. Using this DNS name allows us to include a real TLS cert
+and key in the docker image to ease testing things. An added benefit
+is that you can work around restrictions in some software that limit
+redirects to localhost.
+
+You can use any subdomain of `local.stack-dev.cirrusidentity.com` in your testing.
+
+
+## Generate TLS key and cert
+
+This needs to be done every 90 days.
+
+Form https://certbot-dns-route53.readthedocs.io/en/stable/
+
+```bash
+# Generate TLS cets
+$ docker pull certbot/dns-route53
+$ AWS_KEY=secretsecretsecret
+$ docker run -it --rm --name certbot \
+  --env AWS_ACCESS_KEY_ID=AKIAIAYEB6P2UTLQLYIQ \
+  --env AWS_SECRET_ACCESS_KEY=$AWS_KEY \
+  -v "$PWD/letsencrypt:/etc/letsencrypt" \
+  certbot/dns-route53 certonly -d '*.local.stack-dev.cirrusidentity.com' -m patrick@cirrusidentity.com  --agree-tos  --dns-route53 
+# Wait a while and certs should appear in letsencrypt/
+# Copy the keys to the docker folder
+cp letsencrypt/live/local.stack-dev.cirrusidentity.com/privkey.pem docker/tls/local-stack-dev.key
+cp letsencrypt/live/local.stack-dev.cirrusidentity.com/fullchain.pem docker/tls/local-stack-dev.pem
+
+```

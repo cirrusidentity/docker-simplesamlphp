@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 cd $SSP_DIR
 for repo in $STAGINGCOMPOSERREPOS
   do

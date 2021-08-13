@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # Remove a default module if you want to install a different version.
+set -e
 echo "Default Modules to remove: $SSP_DELETE_MODULES"
 for module in $SSP_DELETE_MODULES
 do

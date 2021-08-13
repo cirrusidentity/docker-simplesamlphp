@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 su www-data -s /bin/bash -c /opt/simplesaml/staging-install.sh
 su www-data -s /bin/bash -c /opt/simplesaml/module-setup.sh
 

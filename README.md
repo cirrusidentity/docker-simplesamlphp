@@ -7,13 +7,19 @@
 - [Ports Matter - Use a Proxy](#ports-matter---use-a-proxy)
   - [Usage Examples](#usage-examples)
     - [Default Install](#default-install)
+    - [Use TLS certificate](#use-tls-certificate)
     - [Use Env variables](#use-env-variables)
     - [Installing and Enable modules at runtime](#installing-and-enable-modules-at-runtime)
     - [Test IdP + Setting Configuration Files](#test-idp--setting-configuration-files)
+    - [Test Metadata conversion](#test-metadata-conversion)
     - [Local Module Development](#local-module-development)
+    - [Apache Configuration Overrides](#apache-configuration-overrides)
 - [Environmental variables](#environmental-variables)
 - [Build Image](#build-image)
   - [Adding to Docker Repo](#adding-to-docker-repo)
+- [Using real TLS certificates](#using-real-tls-certificates)
+  - [Using dns for localhost](#using-dns-for-localhost)
+  - [Generate TLS key and cert](#generate-tls-key-and-cert)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -134,6 +140,19 @@ You can view the [IdP metadata](https://localhost/sample-idp/saml2/idp/metadata.
 and [test authentication](https://localhost/sample-idp/module.php/core/authenticate.php?as=example-userpass). Credentials
 are username `student` and password `studentpass`. See the `authsources.php` for how this is configured.
 
+### Test Metadata conversion
+
+This allows you to convert an xml file into SSP's internal format. If nothing is outputted then the xml file may be invalid.
+Unfortunately the script is not informative as to the cause of the error.
+
+```
+docker run  \
+   -e SSP_ENABLED_MODULES="metarefresh" \
+   --mount type=bind,source=$(pwd)/sample-metadata.xml,target=/tmp/metadata.xml,readonly \
+   --entrypoint /var/simplesamlphp/modules/metarefresh/bin/metarefresh.php \
+   cirrusid/simplesamlphp -s  /tmp/metadata.xml
+```
+
 ### Local Module Development
 
 If you are developing a module locally you can mount it into an SSP container to test it. If your module has
@@ -226,6 +245,7 @@ This will build an image called `cirrusid/simplesamlphp` and tag it with the ssp
     cd docker
     SSPV=1.19.1
     docker build -t cirrusid/simplesamlphp:$SSPV -f Dockerfile .
+    docker tag cirrusid/simplesamlphp:$SSPV cirrusid/simplesamlphp:$SSPV.$(date -u +"%Y%m%dT%H%M%S")
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
 

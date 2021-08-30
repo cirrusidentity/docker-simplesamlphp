@@ -24,10 +24,13 @@ ENV COMPOSER_HASH=29454b41558968ca634bf5e2d4d07ff2275d91b637a76d7a05e6747d36dd34
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
   && chmod a+x  /usr/local/bin/composer
+
+ARG SSP_COMPOSER_VERSION=""
+ARG SSP_VERSION=1.19.1
+
 # Use a real cert instead of snakeoil
 # APACHE_CERT_NAME=ssl-cert-snakeoil
 ENV APACHE_CERT_NAME=local-stack-dev \
-    COMPOSER_REQUIRE="" \
     COMPOSER_HOME=/opt/simplesamlphp/.composer \
     SSP_ADMIN_PASSWORD=123 \
     SSP_APACHE_ALIAS="simplesaml/" \
@@ -58,19 +61,20 @@ ADD ssp-apache.conf /etc/apache2/sites-available/ssp.conf
 ADD tls/local-stack-dev.key  /etc/ssl/private/${APACHE_CERT_NAME}.key
 ADD tls/local-stack-dev.pem  /etc/ssl/certs/${APACHE_CERT_NAME}.pem
 RUN a2ensite ssp
-# Make directories often required by commonly used modules
-RUN mkdir -p $SSP_DIR/data \
-    && mkdir $SSP_DIR/ticketcache \
-    && chown -R www-data $SSP_DIR \
-    && mkdir -p $COMPOSER_HOME && chown www-data $COMPOSER_HOME
+RUN  mkdir -p $SSP_DIR && chown www-data $SSP_DIR \
+     && mkdir -p $COMPOSER_HOME && chown www-data $COMPOSER_HOME
+# Composer installs seem to require us to run npm
+RUN if [ -n "$SSP_COMPOSER_VERSION" ]; then apt-get update -y && apt-get install -y npm; mkdir -p "/var/www/.npm" && chown www-data "/var/www/.npm" && chown -R 33:33 "/var/www/.npm"; fi
 
 USER www-data
-RUN curl -L -o /tmp/ssp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SSP_VERSION/simplesamlphp-$SSP_VERSION.tar.gz \
-  &&  echo "$SSP_HASH  /tmp/ssp.tar.gz" | sha256sum -c - \
-  && tar xvzf /tmp/ssp.tar.gz --strip-components 1 -C $SSP_DIR
+COPY ssp-download.sh  /opt/simplesaml/
+RUN  /opt/simplesaml/ssp-download.sh
 
 ADD ssp/config/* /var/simplesamlphp/config/
-RUN echo 'require "config-override-base.php";' >> /var/simplesamlphp/config/config.php
+# Add config override and Make directories often required by commonly used modules
+RUN echo 'require "config-override-base.php";' >> /var/simplesamlphp/config/config.php \
+    && mkdir -p $SSP_DIR/data \
+    && mkdir -p $SSP_DIR/ticketcache
 
 USER root
 COPY module-setup.sh /opt/simplesaml/

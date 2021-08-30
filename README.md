@@ -13,9 +13,13 @@
     - [Test IdP + Setting Configuration Files](#test-idp--setting-configuration-files)
     - [Test Metadata conversion](#test-metadata-conversion)
     - [Local Module Development](#local-module-development)
+    - [Using development branch of SSP](#using-development-branch-of-ssp)
     - [Apache Configuration Overrides](#apache-configuration-overrides)
 - [Environmental variables](#environmental-variables)
 - [Build Image](#build-image)
+  - [Build from a release](#build-from-a-release)
+  - [Build from composer/git branch](#build-from-composergit-branch)
+  - [Viewing Images](#viewing-images)
   - [Adding to Docker Repo](#adding-to-docker-repo)
 - [Using real TLS certificates](#using-real-tls-certificates)
   - [Using dns for localhost](#using-dns-for-localhost)
@@ -194,6 +198,30 @@ $ vim dictionaries/modinfo.definition.json
 Now visit https://localhost/sample-staging/module.php/core/frontpage_config.php and you should see you text change
 visible.
 
+### Using development branch of SSP
+
+You may want to test a module against the master branch (or other git commit of SSP). Build a version of this image using
+that branch (search for SSP_COMPOSER_VERSION in this document).
+
+In this example we test the latest SSP master branch, against a specifc commit of ADFS module
+
+```
+docker run --name ssp-master \
+   --mount type=bind,source="$(pwd)/samples/cert",target=/var/simplesamlphp/cert,readonly \
+  --mount type=bind,source="$(pwd)/samples/adfs/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
+  --mount type=bind,source="$(pwd)/samples/adfs/config-override.php",target=/var/simplesamlphp/config/config-override.php,readonly \
+  --mount type=bind,source="$(pwd)/samples/adfs/metadata/adfs-idp-hosted.php",target=/var/simplesamlphp/metadata/adfs-idp-hosted.php,readonly \
+    --mount type=bind,source="$(pwd)/samples/adfs/metadata/adfs-sp-remote.php",target=/var/simplesamlphp/metadata/adfs-sp-remote.php,readonly \
+  -e SSP_ENABLED_MODULES="adfs exampleauth" \
+  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-adfs:dev-master#617e92b37d0889dd623f62821ef1aac0f8431667" \
+  -e SSP_ADMIN_PASSWORD=secret1 \
+  -e SSP_SECRET_SALT=mysalt \
+  -p 443:443 cirrusid/simplesamlphp:composer-dev-master
+```
+
+You can view ADFS metadata https://adfs-sample.local.stack-dev.cirrusidentity.com/simplesaml/module.php/adfs/metadata
+ or authenticate using WS-FED https://adfs-sample.local.stack-dev.cirrusidentity.com/simplesaml/module.php/adfs/prp?wa=wsignin1.0&wtrealm=urn:federation:localhost&wctx=some-context
+
 ### Apache Configuration Overrides
 
 Some modules require additional apache configuration rules to function. In this example we install the `casserver` module.
@@ -240,24 +268,44 @@ and you should authenticate and then be sent to 404 url with a ticket as a query
 
 # Build Image
 
+## Build from a release
 This will build an image called `cirrusid/simplesamlphp` and tag it with the ssp version `1`.19.1`
 
     cd docker
-    SSPV=1.19.1
-    docker build -t cirrusid/simplesamlphp:$SSPV -f Dockerfile .
-    docker tag cirrusid/simplesamlphp:$SSPV cirrusid/simplesamlphp:$SSPV.$(date -u +"%Y%m%dT%H%M%S")
+    SSP_VERSION=1.19.1
+    docker build -t cirrusid/simplesamlphp:$SSP_VERSION \
+        --build-arg SSP_VERSION=${SSP_VERSION} \
+        -f Dockerfile .
+    docker tag cirrusid/simplesamlphp:$SSP_VERSION cirrusid/simplesamlphp:$SSP_VERSION.$(date -u +"%Y%m%dT%H%M%S")
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
 
-    docker tag cirrusid/simplesamlphp:$SSPV cirrusid/simplesamlphp:latest
+    docker tag cirrusid/simplesamlphp:$SSP_VERSION cirrusid/simplesamlphp:latest
+
+## Build from composer/git branch
+
+If you want to build from git commit then you can build using a composer to install SSP. This is useful to test
+the latest version from git. It does require `npm` to be installed into the resulting image, doubling its size.
+
+    cd docker
+    SSP_COMPOSER_VERSION=dev-master
+    docker build -t cirrusid/simplesamlphp:composer-${SSP_COMPOSER_VERSION} \
+        --build-arg SSP_COMPOSER_VERSION=${SSP_COMPOSER_VERSION} \
+        -f Dockerfile .
+    docker tag cirrusid/simplesamlphp:composer-${SSP_COMPOSER_VERSION} cirrusid/simplesamlphp:composer-${SSP_COMPOSER_VERSION}.$(date -u +"%Y%m%dT%H%M%S")
+
+
+## Viewing Images
 
 You can see the images
 
 ```
 docker images cirrusid/simplesamlphp
-REPOSITORY          TAG                 IMAGE ID            CREATED              VIRTUAL SIZE
-cirrusid/ssp          1.13.2              97cf0a208322        About a minute ago   535.8 MB
-cirrusid/ssp          latest              97cf0a208322        About a minute ago   535.8 MB
+REPOSITORY               TAG                      IMAGE ID       CREATED              SIZE
+cirrusid/simplesamlphp   composer-dev-master      4c26787e2f1e   About a minute ago   1.13GB
+cirrusid/simplesamlphp   1.19.1                   9ed316f77cac   8 minutes ago        607MB
+cirrusid/simplesamlphp   1.19.1.20210813T180530   27f0c093717c   2 weeks ago          562MB
+cirrusid/simplesamlphp   latest                   27f0c093717c   2 weeks ago          562MB
 ```
 
 ## Adding to Docker Repo

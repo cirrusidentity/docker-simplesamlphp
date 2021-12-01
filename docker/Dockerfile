@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
 
 # Simplify installing php extensions. See
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
@@ -18,15 +18,15 @@ RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql
 
 
 # Download and enable composer. See 'Manual Download' https://getcomposer.org/download/
-ENV COMPOSER_HASH=29454b41558968ca634bf5e2d4d07ff2275d91b637a76d7a05e6747d36dd3473 \
-    COMPOSER_VERSION=2.0.14
+ENV COMPOSER_HASH=d44a904520f9aaa766e8b4b05d2d9a766ad9a6f03fa1a48518224aad703061a4 \
+    COMPOSER_VERSION=2.1.14
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
   && chmod a+x  /usr/local/bin/composer
 
 ARG SSP_COMPOSER_VERSION=""
-ARG SSP_VERSION=1.19.1
+ARG SSP_VERSION=2.0.0-beta.1
 
 # Use a real cert instead of snakeoil
 # APACHE_CERT_NAME=ssl-cert-snakeoil
@@ -37,11 +37,11 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=19e3860eff63f2367579b9ee5c2b7b609d7d17daacacd3e04823ddf599124747 \
+    SSP_HASH=894af5ba0074e51dbe30cc041048c930e55d26d9812b027c5c1868f1dcc2e963 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
     SSP_NEW_UI=false \
-    SSP_VERSION=1.19.1 \
+    SSP_VERSION=2.0.0-beta.1 \
     COMPOSER_REQUIRE=""
 
 

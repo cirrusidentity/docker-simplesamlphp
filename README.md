@@ -272,7 +272,7 @@ and you should authenticate and then be sent to 404 url with a ticket as a query
 This will build an image called `cirrusid/simplesamlphp` and tag it with the ssp version `1`.19.1`
 
     cd docker
-    SSP_VERSION=1.19.1
+    SSP_VERSION=2.0.0-beta.1
     docker build -t cirrusid/simplesamlphp:$SSP_VERSION \
         --build-arg SSP_VERSION=${SSP_VERSION} \
         -f Dockerfile .

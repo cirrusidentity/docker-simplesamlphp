@@ -62,7 +62,7 @@ Port information is important in SAML metadata. If the metadata says your servic
 
 You can run SSP
 
-    docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp
+    docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp:2.0.0-beta.1
 
 then navigate to https://localhost/simplesaml/ (and accept the certificate) and you can
 see the welcome page and navigate to some of the menus. Functionality is limited since
@@ -77,7 +77,7 @@ You can view the logs
 A wildcard TLS certificate is included for testing. You may use your own (see the `APACHE_CERT_NAME` env variable and `ssp-apache.conf`)
 or you can test with the on included.
 
-     docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp
+     docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp:2.0.0-beta.1
 
 And visit https://example.local.stack-dev.cirrusidentity.com/simplesaml/ to access your localhost with a valid certificate.
 You may use any subdomain, not just example, for your testing. Certificates expire every 90 days so you'll need to
@@ -94,7 +94,7 @@ docker run --name ssp-env \
   -e SSP_SECRET_SALT=mysalt \
   -e SSP_NEW_UI=true \
   -e SSP_APACHE_ALIAS=altinstall/ \
-   -p 443:443 cirrusid/simplesamlphp
+   -p 443:443 cirrusid/simplesamlphp:2.0.0-beta.1
 ```
 
 The new UI does not take you from the root index directly to the front page, so visit the front page
@@ -110,7 +110,7 @@ docker run --name ssp-composer \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-fticks:v1.1.2" \
   -e SSP_ENABLED_MODULES="modinfo metarefresh fticks" \
-   -p 443:443 cirrusid/simplesamlphp
+   -p 443:443 cirrusid/simplesamlphp:2.0.0-beta.1
 ```
 
 This should install and enable `modinfo` which will tell you the
@@ -137,7 +137,7 @@ docker run --name ssp-idp \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
   -e SSP_APACHE_ALIAS=sample-idp/ \
-   -p 443:443 cirrusid/simplesamlphp
+   -p 443:443 cirrusid/simplesamlphp:2.0.0-beta.1
 ```
 
 You can view the [IdP metadata](https://localhost/sample-idp/saml2/idp/metadata.php?output=xhtml)
@@ -154,7 +154,7 @@ docker run  \
    -e SSP_ENABLED_MODULES="metarefresh" \
    --mount type=bind,source=$(pwd)/sample-metadata.xml,target=/tmp/metadata.xml,readonly \
    --entrypoint /var/simplesamlphp/modules/metarefresh/bin/metarefresh.php \
-   cirrusid/simplesamlphp -s  /tmp/metadata.xml
+   cirrusid/simplesamlphp:2.0.0-beta.1 -s  /tmp/metadata.xml
 ```
 
 ### Local Module Development
@@ -177,7 +177,7 @@ docker run --name ssp-staging \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
   -e SSP_APACHE_ALIAS=sample-staging/ \
-  -p 443:443 cirrusid/simplesamlphp
+  -p 443:443 cirrusid/simplesamlphp:2.0.0-beta.1
 ```
 
 In the output, you should see a line like below, indicating the module was installed.
@@ -216,7 +216,7 @@ docker run --name ssp-master \
   -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-adfs:dev-master#617e92b37d0889dd623f62821ef1aac0f8431667" \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
-  -p 443:443 cirrusid/simplesamlphp:composer-dev-master
+  -p 443:443 cirrusid/simplesamlphp:2.0.0-beta.1:composer-dev-master
 ```
 
 You can view ADFS metadata https://adfs-sample.local.stack-dev.cirrusidentity.com/simplesaml/module.php/adfs/metadata
@@ -236,7 +236,7 @@ docker run --name ssp-casserver \
   --mount type=bind,source="$(pwd)/samples/casserver/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
   --mount type=bind,source="$(pwd)/samples/casserver/module_casserver.php",target=/var/simplesamlphp/config/module_casserver.php,readonly \
   --mount type=bind,source="$(pwd)/samples/casserver/ssp-override.cf",target=/etc/apache2/sites-enabled/ssp-override.cf,readonly \
-   -p 443:443 cirrusid/simplesamlphp
+   -p 443:443 cirrusid/simplesamlphp:2.0.0-beta.1
 ```
 
 Now perform a [CAS authentication](https://localhost/simplesaml/cas/login?service=http%3A%2F%2Flocalhost%2Fcas-example)

@@ -18,15 +18,15 @@ RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql
 
 
 # Download and enable composer. See 'Manual Download' https://getcomposer.org/download/
-ENV COMPOSER_HASH=d44a904520f9aaa766e8b4b05d2d9a766ad9a6f03fa1a48518224aad703061a4 \
-    COMPOSER_VERSION=2.1.14
+ENV COMPOSER_HASH=c252c2a2219956f88089ffc242b42c8cb9300a368fd3890d63940e4fc9652345 \
+    COMPOSER_VERSION=2.4.4
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
   && chmod a+x  /usr/local/bin/composer
 
+# Used if creating image from packagist SSP
 ARG SSP_COMPOSER_VERSION=""
-ARG SSP_VERSION=2.0.0-beta.1
 
 # Use a real cert instead of snakeoil
 # APACHE_CERT_NAME=ssl-cert-snakeoil
@@ -37,11 +37,11 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=894af5ba0074e51dbe30cc041048c930e55d26d9812b027c5c1868f1dcc2e963 \
+    SSP_HASH=fc7d301b160ff2f4a3077020cc9ee51e4fbd8813d64c3bf85e8788e0f60788d6 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
     SSP_NEW_UI=false \
-    SSP_VERSION=2.0.0-beta.1 \
+    SSP_VERSION=2.0.0-rc2 \
     COMPOSER_REQUIRE=""
 
 

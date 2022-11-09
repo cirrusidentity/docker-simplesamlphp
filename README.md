@@ -269,18 +269,17 @@ and you should authenticate and then be sent to 404 url with a ticket as a query
 # Build Image
 
 ## Build from a release
-This will build an image called `cirrusid/simplesamlphp` and tag it with the ssp version.
+This will build an image called `cirrusid/simplesamlphp` and tag it. You must edit docker/Dockerfile to set the SSP version and SSP file hash to use
 
     cd docker
-    SSP_VERSION=v2.0.0-rc2
-    docker build -t cirrusid/simplesamlphp:$SSP_VERSION \
-        --build-arg SSP_VERSION=${SSP_VERSION} \
+    SSP_IMAGE_TAG=v2.0.0-rc2
+    docker build -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG \
         -f Dockerfile .
-    docker tag cirrusid/simplesamlphp:$SSP_VERSION cirrusid/simplesamlphp:$SSP_VERSION.$(date -u +"%Y%m%dT%H%M%S")
+    docker tag cirrusid/simplesamlphp:$SSP_IMAGE_TAG cirrusid/simplesamlphp:$SSP_IMAGE_TAG.$(date -u +"%Y%m%dT%H%M%S")
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
 
-    docker tag cirrusid/simplesamlphp:$SSP_VERSION cirrusid/simplesamlphp:latest
+    docker tag cirrusid/simplesamlphp:$SSP_IMAGE_TAG cirrusid/simplesamlphp:latest
 
 ## Build from composer/git branch
 

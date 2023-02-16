@@ -72,7 +72,8 @@ RUN  /opt/simplesaml/ssp-download.sh
 
 ADD ssp/config/* /var/simplesamlphp/config/
 # Add config override and Make directories often required by commonly used modules
-RUN echo 'require "config-override-base.php";' >> /var/simplesamlphp/config/config.php \
+RUN cp /var/simplesamlphp/config/config.php.dist /var/simplesamlphp/config/config.php \
+    && echo 'require "config-override-base.php";' >> /var/simplesamlphp/config/config.php \
     && mkdir -p $SSP_DIR/data \
     && mkdir -p $SSP_DIR/ticketcache
 

@@ -18,8 +18,8 @@ RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql 
 
 
 # Download and enable composer. See 'Manual Download' https://getcomposer.org/download/
-ENV COMPOSER_HASH=c252c2a2219956f88089ffc242b42c8cb9300a368fd3890d63940e4fc9652345 \
-    COMPOSER_VERSION=2.4.4
+ENV COMPOSER_HASH=91ce6cbf9463eae86ae9d5c21d42faa601a519f3fbb2b623a55ee24678079bd3 \
+    COMPOSER_VERSION=2.5.4
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
@@ -37,11 +37,11 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=fc7d301b160ff2f4a3077020cc9ee51e4fbd8813d64c3bf85e8788e0f60788d6 \
+    SSP_HASH=042cda06b13aca4399aa6b45fe9950f862ecd769bc1b4faa5e90c7bd0cdf7838 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
     SSP_NEW_UI=false \
-    SSP_VERSION=2.0.0-rc2 \
+    SSP_VERSION=2.0.0-rc3 \
     COMPOSER_REQUIRE=""
 
 

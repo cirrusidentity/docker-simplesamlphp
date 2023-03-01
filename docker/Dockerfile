@@ -37,11 +37,10 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=042cda06b13aca4399aa6b45fe9950f862ecd769bc1b4faa5e90c7bd0cdf7838 \
+    SSP_HASH=e2a6e1d143bdb47adf068f6c066f8b69a938f07f3b98813c87dbf8dfa5a81654 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_NEW_UI=false \
-    SSP_VERSION=2.0.0-rc3 \
+    SSP_VERSION=2.0.0 \
     COMPOSER_REQUIRE=""
 
 

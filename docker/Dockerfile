@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
 
 # Simplify installing php extensions. See
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
@@ -14,19 +14,19 @@ RUN apt-get update -y && apt-get install -y \
   vim \
   unzip
 
-RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql
+RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl
 
 
 # Download and enable composer. See 'Manual Download' https://getcomposer.org/download/
-ENV COMPOSER_HASH=29454b41558968ca634bf5e2d4d07ff2275d91b637a76d7a05e6747d36dd3473 \
-    COMPOSER_VERSION=2.0.14
+ENV COMPOSER_HASH=91ce6cbf9463eae86ae9d5c21d42faa601a519f3fbb2b623a55ee24678079bd3 \
+    COMPOSER_VERSION=2.5.4
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
   && chmod a+x  /usr/local/bin/composer
 
+# Used if creating image from packagist SSP
 ARG SSP_COMPOSER_VERSION=""
-ARG SSP_VERSION=1.19.1
 
 # Use a real cert instead of snakeoil
 # APACHE_CERT_NAME=ssl-cert-snakeoil
@@ -37,11 +37,10 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=19e3860eff63f2367579b9ee5c2b7b609d7d17daacacd3e04823ddf599124747 \
+    SSP_HASH=e2a6e1d143bdb47adf068f6c066f8b69a938f07f3b98813c87dbf8dfa5a81654 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_NEW_UI=false \
-    SSP_VERSION=1.19.1 \
+    SSP_VERSION=2.0.0 \
     COMPOSER_REQUIRE=""
 
 
@@ -55,6 +54,9 @@ RUN echo "You should access SSP on https.<p/>If you are using the nginx docker p
 # Enable Apache modules
 RUN a2enmod ssl rewrite
 EXPOSE 443
+
+# Allow ARM machines do run image
+RUN echo "Mutex posixsem" >> /etc/apache2/apache2.conf
 
 # Sites must end with .conf
 ADD ssp-apache.conf /etc/apache2/sites-available/ssp.conf
@@ -72,7 +74,8 @@ RUN  /opt/simplesaml/ssp-download.sh
 
 ADD ssp/config/* /var/simplesamlphp/config/
 # Add config override and Make directories often required by commonly used modules
-RUN echo 'require "config-override-base.php";' >> /var/simplesamlphp/config/config.php \
+RUN cp /var/simplesamlphp/config/config.php.dist /var/simplesamlphp/config/config.php \
+    && echo 'require "config-override-base.php";' >> /var/simplesamlphp/config/config.php \
     && mkdir -p $SSP_DIR/data \
     && mkdir -p $SSP_DIR/ticketcache
 

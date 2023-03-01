@@ -45,7 +45,7 @@ perform these customizations in your `Dockerfile`
 ## Defaults
 
 SSP is installed into the `/var/simplesamlphp` and Apache aliases the
-path `/simplesaml` to the SSP's `www` folder. You can adjust the
+path `/simplesaml` to the SSP's `public` folder. You can adjust the
 Apache mapping with `SSP_APACHE_ALIAS` environmental variable. The
 default document root is `/var/www`
 
@@ -62,7 +62,7 @@ Port information is important in SAML metadata. If the metadata says your servic
 
 You can run SSP
 
-    docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp
+    docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp:v2.0.0
 
 then navigate to https://localhost/simplesaml/ (and accept the certificate) and you can
 see the welcome page and navigate to some of the menus. Functionality is limited since
@@ -77,7 +77,7 @@ You can view the logs
 A wildcard TLS certificate is included for testing. You may use your own (see the `APACHE_CERT_NAME` env variable and `ssp-apache.conf`)
 or you can test with the on included.
 
-     docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp
+     docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp:v2.0.0
 
 And visit https://example.local.stack-dev.cirrusidentity.com/simplesaml/ to access your localhost with a valid certificate.
 You may use any subdomain, not just example, for your testing. Certificates expire every 90 days so you'll need to
@@ -86,15 +86,14 @@ periodically pull new images.
 ### Use Env variables
 
 A number of settings can be set with `env` variables to allow you to explore functionality.
-This example will set the admin account secret, use the new UI and run SSP under `/altinstall/`
+This example will set the admin account secret and run SSP under `/altinstall/`
 
 ```bash
 docker run --name ssp-env \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
-  -e SSP_NEW_UI=true \
   -e SSP_APACHE_ALIAS=altinstall/ \
-   -p 443:443 cirrusid/simplesamlphp
+   -p 443:443 cirrusid/simplesamlphp:v2.0.0
 ```
 
 The new UI does not take you from the root index directly to the front page, so visit the front page
@@ -110,7 +109,7 @@ docker run --name ssp-composer \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-fticks:v1.1.2" \
   -e SSP_ENABLED_MODULES="modinfo metarefresh fticks" \
-   -p 443:443 cirrusid/simplesamlphp
+   -p 443:443 cirrusid/simplesamlphp:v2.0.0
 ```
 
 This should install and enable `modinfo` which will tell you the
@@ -137,7 +136,7 @@ docker run --name ssp-idp \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
   -e SSP_APACHE_ALIAS=sample-idp/ \
-   -p 443:443 cirrusid/simplesamlphp
+   -p 443:443 cirrusid/simplesamlphp:v2.0.0
 ```
 
 You can view the [IdP metadata](https://localhost/sample-idp/saml2/idp/metadata.php?output=xhtml)
@@ -154,7 +153,7 @@ docker run  \
    -e SSP_ENABLED_MODULES="metarefresh" \
    --mount type=bind,source=$(pwd)/sample-metadata.xml,target=/tmp/metadata.xml,readonly \
    --entrypoint /var/simplesamlphp/modules/metarefresh/bin/metarefresh.php \
-   cirrusid/simplesamlphp -s  /tmp/metadata.xml
+   cirrusid/simplesamlphp:v2.0.0 -s  /tmp/metadata.xml
 ```
 
 ### Local Module Development
@@ -177,7 +176,7 @@ docker run --name ssp-staging \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
   -e SSP_APACHE_ALIAS=sample-staging/ \
-  -p 443:443 cirrusid/simplesamlphp
+  -p 443:443 cirrusid/simplesamlphp:v2.0.0
 ```
 
 In the output, you should see a line like below, indicating the module was installed.
@@ -216,7 +215,7 @@ docker run --name ssp-master \
   -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-adfs:dev-master#617e92b37d0889dd623f62821ef1aac0f8431667" \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
-  -p 443:443 cirrusid/simplesamlphp:composer-dev-master
+  -p 443:443 cirrusid/simplesamlphp:v2.0.0:composer-dev-master
 ```
 
 You can view ADFS metadata https://adfs-sample.local.stack-dev.cirrusidentity.com/simplesaml/module.php/adfs/metadata
@@ -236,7 +235,7 @@ docker run --name ssp-casserver \
   --mount type=bind,source="$(pwd)/samples/casserver/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
   --mount type=bind,source="$(pwd)/samples/casserver/module_casserver.php",target=/var/simplesamlphp/config/module_casserver.php,readonly \
   --mount type=bind,source="$(pwd)/samples/casserver/ssp-override.cf",target=/etc/apache2/sites-enabled/ssp-override.cf,readonly \
-   -p 443:443 cirrusid/simplesamlphp
+   -p 443:443 cirrusid/simplesamlphp:v2.0.0
 ```
 
 Now perform a [CAS authentication](https://localhost/simplesaml/cas/login?service=http%3A%2F%2Flocalhost%2Fcas-example)
@@ -261,7 +260,6 @@ and you should authenticate and then be sent to 404 url with a ticket as a query
     * 5: SimpleSAML_Logger::NOTICE       Statistics and errors
     * 6: SimpleSAML_Logger::INFO         Verbose logs
     * 7: SimpleSAML_Logger::DEBUG        Full debug logs - not recommended for production
- * SSP_NEW_UI Set to true to enable the new twig UI
  * SSP_SECRET_SALT Set a secret salt
  
  
@@ -269,18 +267,17 @@ and you should authenticate and then be sent to 404 url with a ticket as a query
 # Build Image
 
 ## Build from a release
-This will build an image called `cirrusid/simplesamlphp` and tag it with the ssp version `1`.19.1`
+This will build an image called `cirrusid/simplesamlphp` and tag it. You must edit docker/Dockerfile to set the SSP version and SSP file hash to use
 
     cd docker
-    SSP_VERSION=1.19.1
-    docker build -t cirrusid/simplesamlphp:$SSP_VERSION \
-        --build-arg SSP_VERSION=${SSP_VERSION} \
+    SSP_IMAGE_TAG=v2.0.0
+    docker build --platform linux/amd64  -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG \
         -f Dockerfile .
-    docker tag cirrusid/simplesamlphp:$SSP_VERSION cirrusid/simplesamlphp:$SSP_VERSION.$(date -u +"%Y%m%dT%H%M%S")
+    docker tag cirrusid/simplesamlphp:$SSP_IMAGE_TAG cirrusid/simplesamlphp:$SSP_IMAGE_TAG.$(date -u +"%Y%m%dT%H%M%S")
 
 If you are building the latest version of ssp, then you can tag it with *latest* to make certain things easier in the future.
 
-    docker tag cirrusid/simplesamlphp:$SSP_VERSION cirrusid/simplesamlphp:latest
+    docker tag cirrusid/simplesamlphp:$SSP_IMAGE_TAG cirrusid/simplesamlphp:latest
 
 ## Build from composer/git branch
 
@@ -335,8 +332,8 @@ Form https://certbot-dns-route53.readthedocs.io/en/stable/
 # Generate TLS cets
 $ docker pull certbot/dns-route53
 $ AWS_KEY=secretsecretsecret
-$ docker run -it --rm --name certbot \
-  --env AWS_ACCESS_KEY_ID=AKIAIAYEB6P2UTLQLYIQ \
+$ docker run -it --rm --name certbot --platform linux/amd64 \
+  --env AWS_ACCESS_KEY_ID=AKIAYOX74EZ5CVNENIM7 \
   --env AWS_SECRET_ACCESS_KEY=$AWS_KEY \
   -v "$PWD/letsencrypt:/etc/letsencrypt" \
   certbot/dns-route53 certonly -d '*.local.stack-dev.cirrusidentity.com' -m patrick@cirrusidentity.com  --agree-tos  --dns-route53 

@@ -23,9 +23,5 @@ if [ ! -z "$COMPOSER_REQUIRE" ]; then
 fi
 
 echo "Modules to enable: $SSP_ENABLED_MODULES"
-for module in $SSP_ENABLED_MODULES
-do
-   echo "Enabling $module";
-   #TODO:
-   touch $SSP_DIR/modules/$module/enable;
-done
+echo -e "\tModules will be enabled via 'module.enable' setting in config.php unless you override the default config.php"
+

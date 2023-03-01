@@ -55,6 +55,9 @@ RUN echo "You should access SSP on https.<p/>If you are using the nginx docker p
 RUN a2enmod ssl rewrite
 EXPOSE 443
 
+# Allow ARM machines do run image
+RUN echo "Mutex posixsem" >> /etc/apache2/apache2.conf
+
 # Sites must end with .conf
 ADD ssp-apache.conf /etc/apache2/sites-available/ssp.conf
 ADD tls/local-stack-dev.key  /etc/ssl/private/${APACHE_CERT_NAME}.key

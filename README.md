@@ -45,7 +45,7 @@ perform these customizations in your `Dockerfile`
 ## Defaults
 
 SSP is installed into the `/var/simplesamlphp` and Apache aliases the
-path `/simplesaml` to the SSP's `www` folder. You can adjust the
+path `/simplesaml` to the SSP's `public` folder. You can adjust the
 Apache mapping with `SSP_APACHE_ALIAS` environmental variable. The
 default document root is `/var/www`
 

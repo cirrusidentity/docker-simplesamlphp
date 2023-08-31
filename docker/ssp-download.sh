@@ -15,6 +15,4 @@ else
   # rather than replicating similar steps here...
   cd $SSP_DIR
   mkdir -p "$SSP_DIR/config" "$SSP_DIR/metadata" "$SSP_DIR/cert" "$SSP_DIR/log" "$SSP_DIR/data"
-  cp -rv "$SSP_DIR/config-templates/"* "$SSP_DIR/config/"
-  cp -rv "$SSP_DIR/metadata-templates/"* "$SSP_DIR/metadata/"
 fi

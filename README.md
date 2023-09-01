@@ -132,15 +132,15 @@ docker run --name ssp-idp \
   --mount type=bind,source="$(pwd)/samples/cert",target=/var/simplesamlphp/cert,readonly \
   --mount type=bind,source="$(pwd)/samples/idp/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
   --mount type=bind,source="$(pwd)/samples/idp/config-override.php",target=/var/simplesamlphp/config/config-override.php,readonly \
-  --mount type=bind,source="$(pwd)/samples/idp/saml2-idp-hosted.php",target=/var/simplesamlphp/metadata/saml2-idp-hosted.php,readonly \
+  --mount type=bind,source="$(pwd)/samples/idp/saml20-idp-hosted.php",target=/var/simplesamlphp/metadata/saml20-idp-hosted.php,readonly \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
   -e SSP_APACHE_ALIAS=sample-idp/ \
    -p 443:443 cirrusid/simplesamlphp:v2.0.0
 ```
 
-You can view the [IdP metadata](https://localhost/sample-idp/saml2/idp/metadata.php?output=xhtml)
-and [test authentication](https://localhost/sample-idp/module.php/core/authenticate.php?as=example-userpass). Credentials
+You can view the [IdP metadata](https://localhost/sample-idp/module.php/saml/idp/metadata)
+and [test authentication](https://localhost/sample-idp/module.php/admin/test/example-userpass). Credentials
 are username `student` and password `studentpass`. See the `authsources.php` for how this is configured.
 
 ### Test Metadata conversion

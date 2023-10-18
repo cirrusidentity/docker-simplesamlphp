@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<EntitiesDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="z-test-invalid-schema.edu" Name="z-test-invalid-schema.edu" xsi:schemaLocation="urn:oasis:names:tc:SAML:2.0:metadata sstc-saml-schema-metadata-2.0.xsd urn:mace:shibboleth:metadata:1.0 shibboleth-metadata-1.0.xsd http://www.w3.org/2000/09/xmldsig# xmldsig-core-schema.xsd">
+  <!-- AttributeConsumingService is missing an index which causes SSP parser to error -->
+  <EntityDescriptor xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://saml.salesforce.com">
+    <SPSSODescriptor WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <KeyDescriptor use="signing">
+        <ds:KeyInfo>
+          <ds:X509Data>
+            <ds:X509Certificate>MIIFBzCCA++gAwIBAgIQDJ4ihF+4VYzLxb+qASp7IzANBgkqhkiG9w0BAQUFADCBvDELMAk
+GA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQLExZWZXJpU2lnbi
+BUcnVzdCBOZXR3b3JrMTswOQYDVQQLEzJUZXJtcyBvZiB1c2UgYXQgaHR0cHM6Ly93d3cud
+mVyaXNpZ24uY29tL3JwYSAoYykxMDE2MDQGA1UEAxMtVmVyaVNpZ24gQ2xhc3MgMyBJbnRl
+cm5hdGlvbmFsIFNlcnZlciBDQSAtIEczMB4XDTExMTIwNzAwMDAwMFoXDTEzMTIwNzIzNTk
+1OVowgY4xCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHFA1TYW
+4gRnJhbmNpc2NvMR0wGwYDVQQKFBRTYWxlc2ZvcmNlLmNvbSwgSW5jLjEUMBIGA1UECxQLQ
+XBwbGljYXRpb24xHTAbBgNVBAMUFHByb3h5LnNhbGVzZm9yY2UuY29tMIGfMA0GCSqGSIb3
+DQEBAQUAA4GNADCBiQKBgQDMoSWW4dBiVScWbXno3C6n2+qR/0O+eE4lzT0Y1go53Pk+Skn
+9sUu43Z+uZ8lOXDqmLiScTaB43ePbqIAUYimqCR9aYCLmSeNwhs68dsxcyDVqm5XIr2OZsr
+LikhNkKPno+0fuoyOWbA35kRxBFXL66tEYlF8ETIT6G3kqt7CGVwIDAQABo4IBszCCAa8wC
+QYDVR0TBAIwADALBgNVHQ8EBAMCBaAwQQYDVR0fBDowODA2oDSgMoYwaHR0cDovL1NWUklu
+dGwtRzMtY3JsLnZlcmlzaWduLmNvbS9TVlJJbnRsRzMuY3JsMEQGA1UdIAQ9MDswOQYLYIZ
+IAYb4RQEHFwMwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly93d3cudmVyaXNpZ24uY29tL3JwYT
+AoBgNVHSUEITAfBglghkgBhvhCBAEGCCsGAQUFBwMBBggrBgEFBQcDAjByBggrBgEFBQcBA
+QRmMGQwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLnZlcmlzaWduLmNvbTA8BggrBgEFBQcw
+AoYwaHR0cDovL1NWUkludGwtRzMtYWlhLnZlcmlzaWduLmNvbS9TVlJJbnRsRzMuY2VyMG4
+GCCsGAQUFBwEMBGIwYKFeoFwwWjBYMFYWCWltYWdlL2dpZjAhMB8wBwYFKw4DAhoEFEtruS
+iWBgy70FI4mymsSweLIQUYMCYWJGh0dHA6Ly9sb2dvLnZlcmlzaWduLmNvbS92c2xvZ28xL
+mdpZjANBgkqhkiG9w0BAQUFAAOCAQEAVq0AapffwqicpyAu41f5pWDn7FPjgIt6lirqwo7t
+LRMpxFuYKIMg+wvioJQ8DJ8mNyw+JnZDPxdVjDSkE2Lb+5Z5P9vKbD833jqKP5vniMMvHRf
+tlkCqP/AI/9z6jomgQtfm3WbI7elTFJvDwA+/VdxgU86mKRpalMWDB545GxVFiO6AZ/8dvA
+poHVHTQBfrckk9JCrH++Wq3EmErKcxzsY8LItC8qCl5HtgJy160fII0ZdF8hV5vKlrHQpo9
+1L0c1pn+z5RB+kt8GIreME2rU3WEmtZglBKrlw3ik0sXL2CO/GCAzbh7YWkEfXtE3GcGh7N
+xcHB+08lZiJzKwN/yg==</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </KeyDescriptor>
+      <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
+      <AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://login.salesforce.com/?saml=EK03Almz90svdv1V0cB.fV4fnZyhMXzLHBkQVn5vEeQFnBilSoyqm6wu2t" index="0" isDefault="true"/>
+      <AttributeConsumingService isDefault="true">
+        <ServiceName xml:lang="en">Salesforce.com</ServiceName>
+        <RequestedAttribute Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="true"/>
+      </AttributeConsumingService>
+    </SPSSODescriptor>
+  </EntityDescriptor>
+</EntitiesDescriptor>

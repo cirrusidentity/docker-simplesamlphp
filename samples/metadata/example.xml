@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<EntitiesDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:idpdisc="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="zcar.example.net" Name="zcar.example.net" xsi:schemaLocation="urn:oasis:names:tc:SAML:2.0:metadata sstc-saml-schema-metadata-2.0.xsd urn:mace:shibboleth:metadata:1.0 shibboleth-metadata-1.0.xsd http://www.w3.org/2000/09/xmldsig# xmldsig-core-schema.xsd">
+  <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://zcar-linking.proxy.qa.example.com/sp">
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:KeyDescriptor use="encryption">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://zcar-linking.proxy.qa.example.com/module.php/saml/sp/saml2-acs.php/zcar-linking_proxy" index="0"/>
+    </md:SPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">ZCAR</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">ZCAR</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://zcar.example.net/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Administrator</md:GivenName>
+      <md:EmailAddress>mailto:support@example.com</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+  <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://zcar-linking.proxy.example.com/sp">
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:KeyDescriptor use="encryption">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://zcar-linking.proxy.example.com/module.php/saml/sp/saml2-acs.php/zcar-linking_proxy" index="0"/>
+    </md:SPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">ZCAR</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">ZCAR</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://zcar.example.net/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Administrator</md:GivenName>
+      <md:EmailAddress>mailto:support@example.com</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+  <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://zcar-invite.proxy.qa.example.com/sp">
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol urn:oasis:names:tc:SAML:1.1:protocol">
+      <Extensions>
+        <idpdisc:DiscoveryResponse Binding="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" Location="https://zcar-invite.proxy.qa.example.com/module.php/saml/sp/request-init.php/zcar-invite_proxy" index="1"/>
+      </Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:KeyDescriptor use="encryption">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>MIIGJDCCBAygAwIBAgIUTsUkSit2tc6jrASbgR98ss/c3sIwDQYJKoZIhvcNAQELBQAwgagxLTArBgNVBAMMJHpjYXItaW52aXRlLnByb3h5LmNpcnJ1c2lkZW50aXR5LmNvbTELMAkGA1UEBhMCVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEDAOBgNVBAcMB09ha2xhbmQxGDAWBgNVBAoMD0NpcnJ1cyBJZGVudGl0eTEpMCcGCSqGSIb3DQEJARYac3VwcG9ydEBjaXJydXNpZGVudGl0eS5jb20wHhcNMjMwOTI1MTczODI5WhcNMzMwOTIyMTczODI5WjCBqDEtMCsGA1UEAwwkemNhci1pbnZpdGUucHJveHkuY2lycnVzaWRlbnRpdHkuY29tMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEQMA4GA1UEBwwHT2FrbGFuZDEYMBYGA1UECgwPQ2lycnVzIElkZW50aXR5MSkwJwYJKoZIhvcNAQkBFhpzdXBwb3J0QGNpcnJ1c2lkZW50aXR5LmNvbTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAL70OvDr6JvTx7/45LWIUwI8WJoAqJGas6wIxfeHhZl+++fEVuXX3irTlZcL08qOBLqvZo6EYtsRLe92ObqgFlS9qkT1xoLmZPZ4NkkFiBnG8eWshp0yHdcg+ZVZG3supRvLlVFNq7oobi1gmOBMr9G0q9TZ/cH4LMRXD58cWuFs6lRQVICDXCcSSOrFvBT/Xl5IG2UoB4RsTHJa+85t2iJIvAiPlfQVrNiJflHKNdCPbnSqljc2Hfq+Rakm7dKfMOfH/M03WiqcyeMvDidb04oqFXC8wpOPJOfCwJqsv5+cp4I9V5IRevgPkT0p4QBKG0qYLI/SalcVKo57wI/RDx10kZDxiLNp5fRLFXwdOIMtFAm0juciGKPW9kY01+rW6ZncC7wX0ups5PYnhfhNz8O5kx0p8aJ8fZD+ynGYEJDClIqngGkC76yXKEyNUp1WxPZnpIjy5p2XoNvnUmLve7DNtlYBVPkkOoiG87mcm58k/e/2pFsErSGIqyGX1AvnEbScmhCmTENs7TTh23tbThU9R3QANFBtVptnVIce+3QzuZu65skX2kR8gtILY6ksSUy81iRH1mFlCxPQ2A4cCkVTAlkxvrEwNl8XtTPckGsEuQHye0FEBRWJtTSvSrtC4+dRjxMz4UbhYpawRghcKQlgn3FzW4FEZIuAb8hF5patAgMBAAGjRDBCMA8GA1UdEwQIMAYBAf8CAQAwLwYDVR0RBCgwJoIkemNhci1pbnZpdGUucHJveHkuY2lycnVzaWRlbnRpdHkuY29tMA0GCSqGSIb3DQEBCwUAA4ICAQB0AUYGeso8Q6US77jfled0AQ43jPy6JDmd4p7FG8EhD0+GPCUEI2YFd8Y9ScrwyVEjRpLZSMLxNZAmftCRT1kda/PE22D1tPzEuokGj3zbwaAgtv5rMLtqEgXjS7eAK6Xj95zHDZf1+Q103B03R5a2k13Q1jw2pAEZf/U45hj3L2cWVsToBN51SXEITb/Kha2zcP364WacW+qPORqh4YVt8BCGxRXBVssvQZVJir5BXfTvNP8YLIBf1ERJ7ZtuvKEMbPciKF/HFAzHI+58ccqHxS9ejQJZmPeeKLTwhWOf3NlPRPL/31WwvPmUbDQptuvOcIByFTXlKB06ztixVtcx985HTeUnR1B9udhm0sM4OF6GcmiCPuG6QeuH3vKrX7K02yYJQqEUqkJsXCqcNtCUJX2ZCHipxvAnUXW4/xdZ/feyHt1W4+qb9WM5QeaSaj4acl3DALFI8NeO45W68vA4NnDYHnk/zF3MYS2kQgZ2ybsM3SDLjxj2PwRVIa2E+GYKWdRDnxx8cr7pwaMwOLp+Ce6l+CUg0Wf1gLkMBACbqHi7e9JhVEZeZ/JXsVJh8batoNBKtrd9jTSP42ZhW2u8MUtu7OFIrMPhZXN+qBaRrW9yIdH8e4NZimbnaVakLiM/dzpmdrkHNzY9IcaWKvd6WDeA3fd5ihHzcIvnOpZhgA==</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://zcar-invite.proxy.qa.example.com/module.php/saml/sp/saml2-acs.php/zcar-invite_proxy" index="0"/>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:1.0:profiles:browser-post" Location="https://zcar-invite.proxy.qa.example.com/module.php/saml/sp/saml1-acs.php/zcar-invite_proxy" index="1"/>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="https://zcar-invite.proxy.qa.example.com/module.php/saml/sp/saml2-acs.php/zcar-invite_proxy" index="2"/>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:1.0:profiles:artifact-01" Location="https://zcar-invite.proxy.qa.example.com/module.php/saml/sp/saml1-acs.php/zcar-invite_proxy/artifact" index="3"/>
+    </md:SPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">ZCAR</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">ZCAR</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://zcar.example.net/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Administrator</md:GivenName>
+      <md:EmailAddress>mailto:support@example.com</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+  <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://zcar-invite.proxy.example.com/sp">
+    <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol urn:oasis:names:tc:SAML:1.1:protocol">
+      <Extensions>
+        <idpdisc:DiscoveryResponse Binding="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" Location="https://zcar-invite.proxy.example.com/module.php/saml/sp/request-init.php/zcar-invite_proxy" index="1"/>
+      </Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:KeyDescriptor use="encryption">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://zcar-invite.proxy.example.com/module.php/saml/sp/saml2-acs.php/zcar-invite_proxy" index="0"/>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:1.0:profiles:browser-post" Location="https://zcar-invite.proxy.example.com/module.php/saml/sp/saml1-acs.php/zcar-invite_proxy" index="1"/>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="https://zcar-invite.proxy.example.com/module.php/saml/sp/saml2-acs.php/zcar-invite_proxy" index="2"/>
+      <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:1.0:profiles:artifact-01" Location="https://zcar-invite.proxy.example.com/module.php/saml/sp/saml1-acs.php/zcar-invite_proxy/artifact" index="3"/>
+    </md:SPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">ZCAR</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">ZCAR</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://zcar.example.net/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Administrator</md:GivenName>
+      <md:EmailAddress>mailto:support@example.com</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+  <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://zcar.idp.qa.example.com/idp">
+    <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <shibmd:Scope xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" regexp="false">zcar.idp.qa.example.com</shibmd:Scope>
+        <mdui:UIInfo xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">
+          <mdui:DisplayName xml:lang="en">ZCAR Guest QA</mdui:DisplayName>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:KeyDescriptor use="encryption">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://zcar.idp.qa.example.com/saml2/idp/SingleLogoutService.php"/>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+      <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://zcar.idp.qa.example.com/saml2/idp/SSOService.php"/>
+      <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://zcar.idp.qa.example.com/saml2/idp/SSOService.php"/>
+    </md:IDPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">ZCAR</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">ZCAR</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://zcar.example.net/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Administrator</md:GivenName>
+      <md:EmailAddress>mailto:support@example.com</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+  <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://zcar.idp.example.com/idp">
+    <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+      <md:Extensions>
+        <shibmd:Scope xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" regexp="false">zcar.idp.example.com</shibmd:Scope>
+        <mdui:UIInfo xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">
+          <mdui:DisplayName xml:lang="en">ZCAR Guest</mdui:DisplayName>
+        </mdui:UIInfo>
+      </md:Extensions>
+      <md:KeyDescriptor use="signing">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:KeyDescriptor use="encryption">
+        <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+          <ds:X509Data>
+            <ds:X509Certificate>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</ds:X509Certificate>
+          </ds:X509Data>
+        </ds:KeyInfo>
+      </md:KeyDescriptor>
+      <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://zcar.idp.example.com/saml2/idp/SingleLogoutService.php"/>
+      <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+      <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://zcar.idp.example.com/saml2/idp/SSOService.php"/>
+      <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://zcar.idp.example.com/saml2/idp/SSOService.php"/>
+    </md:IDPSSODescriptor>
+    <md:Organization>
+      <md:OrganizationName xml:lang="en">ZCAR</md:OrganizationName>
+      <md:OrganizationDisplayName xml:lang="en">ZCAR</md:OrganizationDisplayName>
+      <md:OrganizationURL xml:lang="en">https://zcar.example.net/</md:OrganizationURL>
+    </md:Organization>
+    <md:ContactPerson contactType="technical">
+      <md:GivenName>Administrator</md:GivenName>
+      <md:EmailAddress>mailto:support@example.com</md:EmailAddress>
+    </md:ContactPerson>
+  </md:EntityDescriptor>
+</EntitiesDescriptor>

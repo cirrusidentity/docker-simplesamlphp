@@ -148,15 +148,29 @@ You can view the [admin page](https://localhost/sample-idp/module.php/core/front
 
 ### Test Metadata conversion
 
-This allows you to convert an xml file into SSP's internal format. If nothing is outputted then the xml file may be invalid.
+Test metadata conversion with metadata conversion admin web tool.
+After running the below docker command,
+You can view the [metadata converter page](https://localhost/simplesaml/module.php/admin/federation/metadata-converter)
+(password `secret1`)
+
+```
+docker run --name ssp-metadata-convert \
+   --mount type=bind,source="$(pwd)/samples/idp/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
+   -e SSP_ADMIN_PASSWORD=secret1 \
+   -p 443:443 cirrusid/simplesamlphp:v2.0.0
+```
+
+Metadata refresh module provides a CLI tool that allows you to convert an xml file into SSP's internal format.
+If nothing is outputted then the xml file may be invalid.
 Unfortunately the script is not informative as to the cause of the error.
 
 ```
 docker run  \
    -e SSP_ENABLED_MODULES="metarefresh" \
-   --mount type=bind,source=$(pwd)/sample-metadata.xml,target=/tmp/metadata.xml,readonly \
+   -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-metarefresh" \
+   --mount type=bind,source=$(pwd)/samples/metadata,target=/tmp/metadata,readonly \
    --entrypoint /var/simplesamlphp/modules/metarefresh/bin/metarefresh.php \
-   cirrusid/simplesamlphp:v2.0.0 -s  /tmp/metadata.xml
+   cirrusid/simplesamlphp:v2.0.0 -s  /tmp/metadata/example.xml
 ```
 
 ### Local Module Development

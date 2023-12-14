@@ -23,7 +23,7 @@ ENV COMPOSER_HASH=d6eee0d4637f4bd82bdae098fceda300dcb3ec35bf502604fbe7510933b8f9
 
 RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
   &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
-  && chmod u+x  /usr/local/bin/composer
+  && chmod a+x  /usr/local/bin/composer
 
 ENV APACHE_CERT_NAME=ssl-cert-snakeoil \
     COMPOSER_REQUIRE="" \
@@ -32,11 +32,11 @@ ENV APACHE_CERT_NAME=ssl-cert-snakeoil \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=2111129787a4baf27a51e52bda660c56d069f167354800bffc72440dcacb3a6f \
+    SSP_HASH=2457dd6f18a457e7bc291566123fc60595efb6ee18c1ffc9823223644c2b87e2 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
     SSP_NEW_UI=false \
-    SSP_VERSION=1.19.0 \
+    SSP_VERSION=1.19.7 \
     COMPOSER_REQUIRE=""
 
 
@@ -66,9 +66,9 @@ RUN echo 'require "config-override-base.php";' >> /var/simplesamlphp/config/conf
 
 USER root
 COPY module-setup.sh /opt/simplesaml/
-COPY staging-install.sh /opt/simplesaml
+COPY staging-install.sh /opt/simplesaml/
 RUN chmod a+x /opt/simplesaml/staging-install.sh && \
-    chmod a+x /opt/simplesaml/module-setup.sh && /opt/simplesaml/module-setup.sh
+    chmod a+x /opt/simplesaml/module-setup.sh
 
 COPY ssp-startup.sh /opt/simplesaml/ssp-startup.sh
 RUN chmod u+x /opt/simplesaml/ssp-startup.sh

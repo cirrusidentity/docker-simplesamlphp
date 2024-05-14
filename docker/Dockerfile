@@ -16,17 +16,8 @@ RUN apt-get update -y && apt-get -y upgrade && apt-get install -y \
     apt-get clean && \
     apt-get autoclean
 
-RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl
+RUN install-php-extensions gmp  ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl @composer-2.7.6
 
-# Download and enable composer. See 'Manual Download' https://getcomposer.org/download/
-ENV COMPOSER_HASH=9a18e1a3aadbcb94c1bafd6c4a98ff931f4b43a456ef48575130466e19f05dd6 \
-    COMPOSER_VERSION=2.6.5
-
-RUN curl -o /usr/local/bin/composer https://getcomposer.org/download/$COMPOSER_VERSION/composer.phar \
-  &&  echo "$COMPOSER_HASH /usr/local/bin/composer" | sha256sum -c - \
-  && chmod a+x  /usr/local/bin/composer
-
-# Used if creating image from packagist SSP
 ARG SSP_COMPOSER_VERSION=""
 
 # Use a real cert instead of snakeoil

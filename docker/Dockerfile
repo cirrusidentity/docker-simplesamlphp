@@ -4,18 +4,19 @@ FROM php:8.2-apache
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
 # Install the various packages needed by ssp and composer
-RUN apt-get update -y && apt-get install -y \
-  git \
-  file \
-  ssl-cert \
-  patch \
-  curl \
-  zip \
-  vim \
-  unzip
+RUN apt-get update -y && apt-get -y upgrade && apt-get install -y \
+    git \
+    file \
+    ssl-cert \
+    patch \
+    curl \
+    zip \
+    vim \
+    unzip && \
+    apt-get clean && \
+    apt-get autoclean
 
 RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl
-
 
 # Download and enable composer. See 'Manual Download' https://getcomposer.org/download/
 ENV COMPOSER_HASH=9a18e1a3aadbcb94c1bafd6c4a98ff931f4b43a456ef48575130466e19f05dd6 \

@@ -43,7 +43,7 @@ RUN echo "You should access SSP on https.<p/>If you are using the nginx docker p
     echo 'By default SSP is on <a href="/simplesaml/">/simplesaml/</a>' > /var/www/index.html
 
 # Enable Apache modules
-RUN a2enmod ssl rewrite
+RUN a2enmod ssl rewrite headers
 EXPOSE 443
 
 # Allow ARM machines do run image

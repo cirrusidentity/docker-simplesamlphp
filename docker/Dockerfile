@@ -29,19 +29,18 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=5b5da44b21929f972ff910579e6089af87cd05dd89af74096b4ba257b20c902f \
+    SSP_HASH=4aca4af58fcf450099f4729a5abe4a831d5dc8b5663d6147d3da069319f23107 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=2.0.7 \
+    SSP_VERSION=2.2.2 \
     COMPOSER_REQUIRE=""
-
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \
     && echo 'expose_php = off' >> $PHP_INI_DIR/php.ini 
 
 # Add default index page 
-RUN echo "You should access SSP on https.<p/>If you are using the nginx docker proxy make sure to set 'VIRTUAL_PORT=443' and 'VIRTUAL_PROTO=https'" > /var/www/html/index.html \
-    && echo 'By default SSP is on <a href="/simplesaml/">/simplesaml/</a>' > /var/www/index.html
+RUN echo "You should access SSP on https.<p/>If you are using the nginx docker proxy make sure to set 'VIRTUAL_PORT=443' and 'VIRTUAL_PROTO=https'" > /var/www/html/index.html && \
+    echo 'By default SSP is on <a href="/simplesaml/">/simplesaml/</a>' > /var/www/index.html
 
 # Enable Apache modules
 RUN a2enmod ssl rewrite
@@ -55,10 +54,13 @@ ADD ssp-apache.conf /etc/apache2/sites-available/ssp.conf
 ADD tls/local-stack-dev.key  /etc/ssl/private/${APACHE_CERT_NAME}.key
 ADD tls/local-stack-dev.pem  /etc/ssl/certs/${APACHE_CERT_NAME}.pem
 RUN a2ensite ssp
-RUN  mkdir -p $SSP_DIR && chown www-data $SSP_DIR \
-     && mkdir -p $COMPOSER_HOME && chown www-data $COMPOSER_HOME
+RUN  mkdir -p $SSP_DIR && chown www-data $SSP_DIR && \
+     mkdir -p $COMPOSER_HOME && chown www-data $COMPOSER_HOME
 # Composer installs seem to require us to run npm
-RUN if [ -n "$SSP_COMPOSER_VERSION" ]; then apt-get update -y && apt-get install -y npm; mkdir -p "/var/www/.npm" && chown www-data "/var/www/.npm" && chown -R 33:33 "/var/www/.npm"; fi
+RUN if [ -n "$SSP_COMPOSER_VERSION" ]; then apt-get update -y && apt-get install -y npm; \
+    mkdir -p "/var/www/.npm" && chown www-data "/var/www/.npm" && chown -R 33:33 "/var/www/.npm"; fi && \
+    apt-get clean && \
+    apt-get autoclean
 
 USER www-data
 COPY ssp-download.sh  /opt/simplesaml/

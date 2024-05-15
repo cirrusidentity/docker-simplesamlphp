@@ -62,7 +62,7 @@ Port information is important in SAML metadata. If the metadata says your servic
 
 You can run SSP
 
-    docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp:v2.0.7
+    docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp:v2.2.2
 
 then navigate to https://localhost/simplesaml/ (and accept the certificate) and you can
 see the welcome page and navigate to some of the menus. Functionality is limited since
@@ -77,7 +77,7 @@ You can view the logs
 A wildcard TLS certificate is included for testing. You may use your own (see the `APACHE_CERT_NAME` env variable and `ssp-apache.conf`)
 or you can test with the on included.
 
-     docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp:v2.0.7
+     docker run --name ssp-default -p 443:443 cirrusid/simplesamlphp:v2.2.2
 
 And visit https://example.local.stack-dev.cirrusidentity.com/simplesaml/ to access your localhost with a valid certificate.
 You may use any subdomain, not just example, for your testing. Certificates expire every 90 days so you'll need to
@@ -93,7 +93,7 @@ docker run --name ssp-env \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
   -e SSP_APACHE_ALIAS=altinstall/ \
-   -p 443:443 cirrusid/simplesamlphp:v2.0.7
+   -p 443:443 cirrusid/simplesamlphp:v2.2.2
 ```
 
 The new UI does not take you from the root index directly to the front page, so visit the front page
@@ -107,10 +107,13 @@ For testing purposes you can install composer dependencies at container start. S
 ```bash
 docker run --name ssp-composer \
   -e SSP_ADMIN_PASSWORD=secret1 \
-  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-fticks:v1.1.2" \
+  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-fticks" \
   -e SSP_ENABLED_MODULES="modinfo metarefresh fticks" \
-   -p 443:443 cirrusid/simplesamlphp:v2.0.7
+   -p 443:443 cirrusid/simplesamlphp:v2.2.2
 ```
+
+**note: modinfo is not compatible with SSP 2. This example has  
+been left in to show how to require modules, but modinfo will not work**
 
 This should install and enable `modinfo` which will tell you the
 status of installed modules. Visit
@@ -137,11 +140,12 @@ docker run --name ssp-idp \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
   -e SSP_APACHE_ALIAS=sample-idp/ \
-   -p 443:443 cirrusid/simplesamlphp:v2.0.7
+   -p 443:443 cirrusid/simplesamlphp:v2.2.2
 ```
 
 You can view the [IdP metadata](https://localhost/sample-idp/module.php/saml/idp/metadata)
-and [test authentication](https://localhost/sample-idp/module.php/admin/test/example-userpass). Credentials
+and [test authentication](https://localhost/sample-idp/module.php/admin/test/example-userpass). To  
+access the test authetnication page you must first auth as `admin/secret1` and then the credentials
 are username `student` and password `studentpass`. See the `authsources.php` for how this is configured.
 
 You can view the [admin page](https://localhost/sample-idp/module.php/core/frontpage_config.php)
@@ -157,7 +161,7 @@ You can view the [metadata converter page](https://localhost/simplesaml/module.p
 docker run --name ssp-metadata-convert \
    --mount type=bind,source="$(pwd)/samples/idp/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
    -e SSP_ADMIN_PASSWORD=secret1 \
-   -p 443:443 cirrusid/simplesamlphp:v2.0.7
+   -p 443:443 cirrusid/simplesamlphp:v2.2.2
 ```
 
 Metadata refresh module provides a CLI tool that allows you to convert an xml file into SSP's internal format.
@@ -170,7 +174,7 @@ docker run  \
    -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-metarefresh" \
    --mount type=bind,source=$(pwd)/samples/metadata,target=/tmp/metadata,readonly \
    --entrypoint /var/simplesamlphp/modules/metarefresh/bin/metarefresh.php \
-   cirrusid/simplesamlphp:v2.0.7 -s  /tmp/metadata/example.xml
+   cirrusid/simplesamlphp:v2.2.2 -s  /tmp/metadata/example.xml
 ```
 
 ### Local Module Development
@@ -193,7 +197,7 @@ docker run --name ssp-staging \
   -e SSP_ADMIN_PASSWORD=secret1 \
   -e SSP_SECRET_SALT=mysalt \
   -e SSP_APACHE_ALIAS=sample-staging/ \
-  -p 443:443 cirrusid/simplesamlphp:v2.0.7
+  -p 443:443 cirrusid/simplesamlphp:v2.2.2
 ```
 
 In the output, you should see a line like below, indicating the module was installed.
@@ -252,7 +256,7 @@ docker run --name ssp-casserver \
   --mount type=bind,source="$(pwd)/samples/casserver/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
   --mount type=bind,source="$(pwd)/samples/casserver/module_casserver.php",target=/var/simplesamlphp/config/module_casserver.php,readonly \
   --mount type=bind,source="$(pwd)/samples/casserver/ssp-override.cf",target=/etc/apache2/sites-enabled/ssp-override.cf,readonly \
-   -p 443:443 cirrusid/simplesamlphp:v2.0.7
+   -p 443:443 cirrusid/simplesamlphp:v2.2.2
 ```
 
 Now perform a [CAS authentication](https://localhost/simplesaml/cas/login?service=http%3A%2F%2Flocalhost%2Fcas-example)
@@ -287,12 +291,13 @@ and you should authenticate and then be sent to 404 url with a ticket as a query
 This will build an image called `cirrusid/simplesamlphp` and tag it. You must edit docker/Dockerfile to set the SSP version and SSP file hash to use
 
     cd docker
-    SSP_IMAGE_TAG=v2.0.7
+    SSP_IMAGE_TAG=v2.2.2
     # Build a multi-arch image
     docker buildx build --platform linux/amd64,linux/arm64  -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG \
         -f Dockerfile .
-    # Load one of those arch into Docker to test
-    docker buildx build --load --platform linux/arm64 -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG:arm .
+    # Load one of those arch into Docker to test. e.g the previous build step doesn't make the image
+    # available without doing a load
+    docker buildx build --load --platform linux/arm64 -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG .
     # Push a multi-arch image (same as build command but with a push)
     docker buildx build --push  --platform linux/amd64,linux/arm64  -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG \
             -f Dockerfile .

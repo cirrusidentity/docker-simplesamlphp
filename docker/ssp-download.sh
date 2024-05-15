@@ -3,7 +3,7 @@ set -e
 if [ -z "$SSP_COMPOSER_VERSION" ]
 then
   # Download a release
-  curl -L -o /tmp/ssp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SSP_VERSION/simplesamlphp-$SSP_VERSION.tar.gz
+  curl -L -o /tmp/ssp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SSP_VERSION/simplesamlphp-$SSP_VERSION-full.tar.gz
   echo "$SSP_HASH  /tmp/ssp.tar.gz" | sha256sum -c -
   tar xvzf /tmp/ssp.tar.gz --strip-components 1 -C $SSP_DIR
   echo $SSP_VERSION > $SSP_DIR/ssp_release_version

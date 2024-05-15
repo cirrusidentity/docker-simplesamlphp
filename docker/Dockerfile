@@ -55,6 +55,7 @@ ADD tls/local-stack-dev.key  /etc/ssl/private/${APACHE_CERT_NAME}.key
 ADD tls/local-stack-dev.pem  /etc/ssl/certs/${APACHE_CERT_NAME}.pem
 RUN a2ensite ssp
 RUN  mkdir -p $SSP_DIR && chown www-data $SSP_DIR && \
+     mkdir -p /var/cache/simplesamlphp/ && chown www-data /var/cache/simplesamlphp/ && \
      mkdir -p $COMPOSER_HOME && chown www-data $COMPOSER_HOME
 # Composer installs seem to require us to run npm
 RUN if [ -n "$SSP_COMPOSER_VERSION" ]; then apt-get update -y && apt-get install -y npm; \

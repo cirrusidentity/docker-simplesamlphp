@@ -107,10 +107,13 @@ For testing purposes you can install composer dependencies at container start. S
 ```bash
 docker run --name ssp-composer \
   -e SSP_ADMIN_PASSWORD=secret1 \
-  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-fticks:v1.1.2" \
+  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-fticks" \
   -e SSP_ENABLED_MODULES="modinfo metarefresh fticks" \
    -p 443:443 cirrusid/simplesamlphp:v2.2.2
 ```
+
+**note: modinfo is not compatible with SSP 2. This example has  
+been left in to show how to require modules, but modinfo will not work**
 
 This should install and enable `modinfo` which will tell you the
 status of installed modules. Visit
@@ -141,7 +144,8 @@ docker run --name ssp-idp \
 ```
 
 You can view the [IdP metadata](https://localhost/sample-idp/module.php/saml/idp/metadata)
-and [test authentication](https://localhost/sample-idp/module.php/admin/test/example-userpass). Credentials
+and [test authentication](https://localhost/sample-idp/module.php/admin/test/example-userpass). To  
+access the test authetnication page you must first auth as `admin/secret1` and then the credentials
 are username `student` and password `studentpass`. See the `authsources.php` for how this is configured.
 
 You can view the [admin page](https://localhost/sample-idp/module.php/core/frontpage_config.php)
@@ -291,8 +295,9 @@ This will build an image called `cirrusid/simplesamlphp` and tag it. You must ed
     # Build a multi-arch image
     docker buildx build --platform linux/amd64,linux/arm64  -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG \
         -f Dockerfile .
-    # Load one of those arch into Docker to test
-    docker buildx build --load --platform linux/arm64 -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG:arm .
+    # Load one of those arch into Docker to test. e.g the previous build step doesn't make the image
+    # available without doing a load
+    docker buildx build --load --platform linux/arm64 -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG .
     # Push a multi-arch image (same as build command but with a push)
     docker buildx build --push  --platform linux/amd64,linux/arm64  -t cirrusid/simplesamlphp:$SSP_IMAGE_TAG \
             -f Dockerfile .

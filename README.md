@@ -54,7 +54,7 @@ integrating the image with ldap and databases.
 
 # Ports Matter - Use a Proxy
 
-Port information is important in SAML metadata. If the metadata says your service is on port 443 then your docker container won't work correctly if its running on port 47651. We recommend using [`jwilder/nginx-proxy`](https://hub.docker.com/r/jwilder/nginx-proxy/) image simplifies your life. The proxy listens on port 443 and routes traffice to the appropriate SSP image.
+Port information is important in SAML metadata. If the metadata says your service is on port 443 then your docker container won't work correctly if its running on port 47651. We recommend using [`jwilder/nginx-proxy`](https://hub.docker.com/r/jwilder/nginx-proxy/) image simplifies your life. The proxy listens on port 443 and routes traffic to the appropriate SSP image.
 
 ## Usage Examples
 

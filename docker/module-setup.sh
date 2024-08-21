@@ -19,6 +19,8 @@ if [ ! -z "$COMPOSER_REQUIRE" ]; then
     # FIXME: what user should this run as?
     #export COMPOSER_HOME=/root
     cd $SSP_DIR
+    composer config minimum-stability dev
+    composer config prefer-stable true
     composer require --update-no-dev $COMPOSER_REQUIRE
 fi
 

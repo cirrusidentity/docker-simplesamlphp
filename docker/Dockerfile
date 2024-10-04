@@ -16,7 +16,7 @@ RUN apt-get update -y && apt-get -y upgrade && apt-get install -y \
     apt-get clean && \
     apt-get autoclean
 
-RUN install-php-extensions gmp  ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl @composer-2.7.6
+RUN install-php-extensions gmp  ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl @composer-2.8.1
 
 ARG SSP_COMPOSER_VERSION=""
 
@@ -29,10 +29,10 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=4aca4af58fcf450099f4729a5abe4a831d5dc8b5663d6147d3da069319f23107 \
+    SSP_HASH=6e6fc8d2052cecdcec5bb56a350facb28d70f9407c74ad9be67b04416de748c5 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=2.2.2 \
+    SSP_VERSION=2.3.2 \
     COMPOSER_REQUIRE=""
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \

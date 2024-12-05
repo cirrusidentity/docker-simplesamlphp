@@ -29,10 +29,10 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=6e6fc8d2052cecdcec5bb56a350facb28d70f9407c74ad9be67b04416de748c5 \
+    SSP_HASH=97bc3b8220eb628fd5493e14187d756247462849ebf323ccf094b0cd2b505665 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=2.3.2 \
+    SSP_VERSION=2.3.5 \
     COMPOSER_REQUIRE=""
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \

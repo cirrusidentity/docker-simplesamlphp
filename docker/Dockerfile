@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Simplify installing php extensions. See
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
@@ -16,7 +16,7 @@ RUN apt-get update -y && apt-get -y upgrade && apt-get install -y \
     apt-get clean && \
     apt-get autoclean
 
-RUN install-php-extensions gmp  ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl @composer-2.8.6
+RUN install-php-extensions gmp  ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl @composer-2.8.12
 
 ARG SSP_COMPOSER_VERSION=""
 
@@ -29,10 +29,10 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=ef1ceaff766289a8689c139b77dc64acf48ebc3f07788fd11410144130c67773 \
+    SSP_HASH=ff52cde9b3f90ff5dd76a97e67842462da2d8edc2128fbe8dcdbbd03b1b21945 \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=2.3.7 \
+    SSP_VERSION=2.4.2 \
     COMPOSER_REQUIRE=""
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \

@@ -29,7 +29,7 @@
 
 # SimpleSAMLphp
 
-This image is pre-configured with Apache 2.4, php 8.2 and SSP.
+This image is pre-configured with Apache 2.4, php 8.3 and SSP.
 The behavior of the image can be controlled with 
  * environmental variables
  * mounting custom configuration and certificates

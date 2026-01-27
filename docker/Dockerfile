@@ -16,9 +16,11 @@ RUN apt-get update -y && apt-get -y upgrade && apt-get install -y \
     apt-get clean && \
     apt-get autoclean
 
-RUN install-php-extensions gmp  ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl @composer-2.8.12
+RUN install-php-extensions gmp ldap soap apcu memcached zip pdo_pgsql pdo_mysql intl bcmath @composer-2.9.4
 
 ARG SSP_COMPOSER_VERSION=""
+ARG SSP_VERSION="2.4.4"
+ARG SSP_HASH="7a6811960cfc49e18f8cd7b309b016dbcb8c4ce1559e31482705fd8342b9eb16"
 
 # Use a real cert instead of snakeoil
 # APACHE_CERT_NAME=ssl-cert-snakeoil
@@ -29,11 +31,12 @@ ENV APACHE_CERT_NAME=local-stack-dev \
     SSP_DELETE_MODULES="" \
     SSP_DIR=/var/simplesamlphp \
     SSP_ENABLED_MODULES="" \
-    SSP_HASH=7a6811960cfc49e18f8cd7b309b016dbcb8c4ce1559e31482705fd8342b9eb16 \
+    SSP_HASH=${SSP_HASH} \
     SSP_LOG_HANDLER=errorlog \
     SSP_LOG_LEVEL=6 \
-    SSP_VERSION=2.4.4 \
-    COMPOSER_REQUIRE=""
+    SSP_VERSION=${SSP_VERSION} \
+    COMPOSER_REQUIRE="" \
+    SSP_COMPOSER_VERSION=${SSP_COMPOSER_VERSION}
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \
     && echo 'expose_php = off' >> $PHP_INI_DIR/php.ini 

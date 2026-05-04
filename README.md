@@ -213,6 +213,22 @@ like routes and controllers are cached by SSP/symfony. To clear those caches try
     docker exec -it ssp-staging /var/simplesamlphp/bin/console  ssp-cache:clear --no-warmup
 ```
 
+### Cas client
+
+Testing out cas client
+
+```bash
+docker run --name ssp-cas \
+  -e SSP_ADMIN_PASSWORD=secret1 \
+  -e COMPOSER_REQUIRE="simplesamlphp/simplesamlphp-module-modinfo simplesamlphp/simplesamlphp-module-cas" \
+  -e SSP_ENABLED_MODULES="modinfo cas" \
+  --mount type=bind,source="$(pwd)/samples/casclient/authsources.php",target=/var/simplesamlphp/config/authsources.php,readonly \
+   -p 443:443 cirrusid/simplesamlphp:v2.5.0
+```
+
+[Auth as an admin](https://casclient.local.stack-dev.cirrusidentity.com/simplesaml/module.php/admin/test)
+and pick example-cas to authenticate with an example Slate CAS server.
+
 ### Using development branch of SSP
 
 **warning** This is out of date

@@ -12,12 +12,18 @@ $config = array(
 
     'example-cas' => [
         'cas:CAS',
-        // Enable Slate support (optional)
-        'slate.enabled' => true,
         'cas' => [
+            'slate.enabled' => true,
             'login'    => 'https://slate.idp.cirrusidentity.com/account/cas/login',
             'serviceValidate' => 'https://slate.idp.cirrusidentity.com/account/cas/serviceValidate',
             'logout'   => 'https://slate.idp.cirrusidentity.com/account/cas/logout',
+            'attributes' => [
+                // These don't map automatically
+                'user'  => 'cas:user',
+                'authenticationDate'  => 'cas:attributes/cas:authenticationDate',
+                'longTermAuthenticationRequestTokenUsed'  => 'cas:attributes/cas:longTermAuthenticationRequestTokenUsed',
+                'isFromNewLogin'  => 'cas:attributes/cas:isFromNewLogin',
+            ]
         ],
         'ldap' => [],
     ],

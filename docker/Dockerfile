@@ -1,4 +1,4 @@
-FROM php:8.4-apache
+FROM php:8.4.27-apache
 
 # Simplify installing php extensions. See
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
